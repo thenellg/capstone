@@ -1,6 +1,9 @@
-# Capstone Group 15
+# CAPSTONE GROUP 15
 
 ## PROJECT: A VR training system for learning and skills development for construction workers
+Inline-style: 
+![alt text](https://i.pinimg.com/originals/b3/90/ce/b390ceab2d88238a0c8903f12e18d79a.jpg "Placeholder Image till We Can Have One of Our Own")
+
 
 The purpose of the project is to design, implement, and evaluate a virtual reality digital simulated
 learning program for the installation and construction process of wooden light frame structures (or WLF).
