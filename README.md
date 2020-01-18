@@ -1,7 +1,6 @@
 # CAPSTONE GROUP 15
 
 ## PROJECT: A VR training system for learning and skills development for construction workers
-Inline-style: 
 ![alt text](https://i.pinimg.com/originals/b3/90/ce/b390ceab2d88238a0c8903f12e18d79a.jpg "Placeholder Image till We Can Have One of Our Own")
 
 
