@@ -18,3 +18,16 @@ process, which could be useful for both the teaching or training purposes.
 - Griffin Thenell
 - Shiyao (Michael) Wang
 
+### Official Deadlines:
+- [ ] Alpha Build (Week 6: 2.10.2020 - 2.14.2020)
+- [ ] Beta Build  (Week 10: 3.02.2020 - 3.13.2020)
+- [ ] Code Freeze (Spring Term)
+- TBD
+
+### Personal Deadlines
+- [ ] 1.19.2020 - Player Controller *BETA*
+- [ ] 1.26.2020 - Environment Module: Object Controller *BETA*
+- [ ] 1.29.2020 - Environment Module: Physical Controller *BETA*
+- [ ] 2.05.2020 - Event Module: Tutorial Module *BETA*
+- [ ] 2.09.2020 - Event Module: Evaluation Module *BETA*
+- More TBD
