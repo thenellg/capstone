@@ -13,14 +13,14 @@ might cycle between each discrete stages or phases of the construction from the 
 process, which could be useful for both the teaching or training purposes.
 > *(From Project Description Document)*
 
-### Unity Version: 
+### Unity Version
 ***Unity 2019.2.8f1***
 
-### Group Memebers:
+### Group Memebers
 - Griffin Thenell
 - Shiyao (Michael) Wang
 
-### Official Deadlines:
+### Official Deadlines
 - [ ] Alpha Build (Week 6: 2.10.2020 - 2.14.2020)
 - [ ] Beta Build  (Week 10: 3.02.2020 - 3.13.2020)
 - [ ] Code Freeze (Spring Term)
@@ -33,3 +33,6 @@ process, which could be useful for both the teaching or training purposes.
 - [ ] 2.05.2020 - Event Module: Tutorial Module *BETA*
 - [ ] 2.09.2020 - Event Module: Evaluation Module *BETA*
 - More TBD
+
+### Helpful Resources
+https://www.youtube.com/channel/UCPJlesN59MzHPPCp0Lg8sLw
