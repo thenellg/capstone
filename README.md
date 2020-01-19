@@ -35,5 +35,5 @@ process, which could be useful for both the teaching or training purposes.
 - More TBD
 
 ### Helpful Resources
-General VR in Unity - https://www.youtube.com/channel/UCPJlesN59MzHPPCp0Lg8sLw
-Teleporting - https://www.youtube.com/watch?v=r1kF0PhwQ8E
+- General VR in Unity - https://www.youtube.com/channel/UCPJlesN59MzHPPCp0Lg8sLw
+- Teleporting - https://www.youtube.com/watch?v=r1kF0PhwQ8E
