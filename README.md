@@ -21,7 +21,7 @@ process, which could be useful for both the teaching or training purposes.
 - Shiyao (Michael) Wang
 
 ### Official Deadlines
-- [ ] Alpha Build (Week 6: 2.14.2020)
+- [ ] Alpha Build (Week 6: **2.14.2020**)
 - [ ] Beta Build  (Week 10: 3.02.2020 - 3.13.2020)
 - [ ] Code Freeze (Spring Term)
 - TBD
