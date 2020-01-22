@@ -1,9 +1,12 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - CharacterCameraConstraint
+    - HighLight
     - ONSPSettings
     - OVRTouchSample.Hand
     - OVRTouchSample.HandPose
+    - Oculus.Platform.PlatformSettings
     - OvrAvatar
     - OvrAvatarLocalDriver
     - OvrAvatarSettings
@@ -13,6 +16,7 @@ ScriptsOnlyBuild:
     Oculus.VR.dll:
     - OVRCameraRig
     - OVRDebugInfo
+    - OVRGrabbable
     - OVRGrabber
     - OVRHeadsetEmulator
     - OVRManager
@@ -29,7 +33,6 @@ ScriptsOnlyBuild:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
     com.unity.multiplayer-hlapi.Runtime.dll:
-    - UnityEngine.Networking.NetworkCallbacks
     - UnityEngine.Networking.NetworkIdentity
   sceneClasses:
     Assets/Scenes/testScene.unity:
@@ -76,53 +79,61 @@ ScriptsOnlyBuild:
     - Class: 109
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 9916}
+      Script: {instanceID: 9922}
     - Class: 114
-      Script: {instanceID: 9938}
+      Script: {instanceID: 9944}
     - Class: 114
-      Script: {instanceID: 10052}
+      Script: {instanceID: 10058}
     - Class: 114
-      Script: {instanceID: 10056}
+      Script: {instanceID: 10062}
     - Class: 114
-      Script: {instanceID: 10120}
+      Script: {instanceID: 10126}
     - Class: 114
-      Script: {instanceID: 10160}
+      Script: {instanceID: 10166}
     - Class: 114
-      Script: {instanceID: 10192}
+      Script: {instanceID: 10198}
     - Class: 114
-      Script: {instanceID: 10372}
+      Script: {instanceID: 10276}
     - Class: 114
-      Script: {instanceID: 10490}
+      Script: {instanceID: 10380}
     - Class: 114
-      Script: {instanceID: 10510}
+      Script: {instanceID: 10500}
     - Class: 114
-      Script: {instanceID: 10768}
+      Script: {instanceID: 10520}
     - Class: 114
-      Script: {instanceID: 10822}
+      Script: {instanceID: 10778}
     - Class: 114
-      Script: {instanceID: 11036}
+      Script: {instanceID: 10832}
     - Class: 114
-      Script: {instanceID: 11224}
+      Script: {instanceID: 11046}
     - Class: 114
-      Script: {instanceID: 11356}
+      Script: {instanceID: 11134}
     - Class: 114
-      Script: {instanceID: 11364}
+      Script: {instanceID: 11238}
     - Class: 114
-      Script: {instanceID: 11516}
+      Script: {instanceID: 11370}
     - Class: 114
-      Script: {instanceID: 11534}
+      Script: {instanceID: 11378}
     - Class: 114
-      Script: {instanceID: 11936}
+      Script: {instanceID: 11504}
     - Class: 114
-      Script: {instanceID: 11990}
+      Script: {instanceID: 11532}
     - Class: 114
-      Script: {instanceID: 12130}
+      Script: {instanceID: 11550}
     - Class: 114
-      Script: {instanceID: 12422}
+      Script: {instanceID: 11564}
     - Class: 114
-      Script: {instanceID: 12532}
+      Script: {instanceID: 11898}
     - Class: 114
-      Script: {instanceID: 25104}
+      Script: {instanceID: 11954}
+    - Class: 114
+      Script: {instanceID: 12008}
+    - Class: 114
+      Script: {instanceID: 12148}
+    - Class: 114
+      Script: {instanceID: 12444}
+    - Class: 114
+      Script: {instanceID: 12554}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -470,6 +481,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: OvrAvatarSDKManager
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SceneReloader
   - hash:
       serializedVersion: 2
       Hash: e7dac3c9100823d6e750582bb7d6b5f8
@@ -850,6 +867,12 @@ ScriptsOnlyBuild:
     className: DetectBasket
   - hash:
       serializedVersion: 2
+      Hash: 5db56ce6cec453229f10d6bfaeef1d18
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: HighLight
+  - hash:
+      serializedVersion: 2
       Hash: bb416e9a49fa1056a851e29bfaeebe51
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -1036,6 +1059,12 @@ ScriptsOnlyBuild:
     className: RemoteTestResultSender
   - hash:
       serializedVersion: 2
+      Hash: 8b19ecd523794b2a0a8c39b64894deab
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Pointer
+  - hash:
+      serializedVersion: 2
       Hash: ab9b3242e7f7cea8eb7d313db01cc29d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -1178,6 +1207,12 @@ ScriptsOnlyBuild:
     assemblyName: Oculus.VR.dll
     namespaceName: 
     className: OVRModeParms
+  - hash:
+      serializedVersion: 2
+      Hash: de0a773707d3f5e13afbbbaa389e7ced
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ButtonTransitioner
   - hash:
       serializedVersion: 2
       Hash: b5d01a44c9a694c6b9bce4626dd0a12e
@@ -1448,6 +1483,12 @@ ScriptsOnlyBuild:
     assemblyName: Oculus.VR.dll
     namespaceName: 
     className: OVRMeshRenderer
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: LoadScenesA
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -1838,30 +1879,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: SceneReloader
-  - hash:
-      serializedVersion: 2
-      Hash: 8b19ecd523794b2a0a8c39b64894deab
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Pointer
-  - hash:
-      serializedVersion: 2
-      Hash: de0a773707d3f5e13afbbbaa389e7ced
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: ButtonTransitioner
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: LoadScenesA
   platform: 13
   scenePathNames:
   - Assets/Scenes/testScene.unity
