@@ -17,6 +17,8 @@ using System.Collections;
 /// </summary>
 public class TeleportTransitionBlink : TeleportTransition
 {
+    public OVRScreenFade fader;
+
 	/// <summary>
 	/// How long the transition takes. Usually this is greater than Teleport Delay.
 	/// </summary>
@@ -66,11 +68,11 @@ public class TeleportTransitionBlink : TeleportTransition
 				teleported = true;
 				LocomotionTeleport.DoTeleport();
 			}
-			//float fadeLevel = FadeLevels.Evaluate(elapsedTime / TransitionDuration);
-			//OVRInspector.instance.fader.SetFadeLevel(fadeLevel);
+			float fadeLevel = FadeLevels.Evaluate(elapsedTime / TransitionDuration);
+			fader.SetFadeLevel(fadeLevel);
 		}
 
-		//OVRInspector.instance.fader.SetFadeLevel(0);
+		fader.SetFadeLevel(0);
 
 		LocomotionTeleport.IsTransitioning = false;
 	}
