@@ -8,6 +8,7 @@ public class Pointer : MonoBehaviour
     public float m_DefaultLength = 5.0f;
     public GameObject m_Dot;
     public GameObject current;
+    private GameObject pointObject;
 
     private LineRenderer m_LineRenderer = null;
 
@@ -36,14 +37,22 @@ public class Pointer : MonoBehaviour
             m_LineRenderer.SetPosition(1, hit.point);
 
             //Check if hit an interactable object
-            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Environmental"))
+            if(hit.collider.gameObject.layer == 9)
             {
-                GameObject rootObject = FindEnvironmentalParent(hit.collider.gameObject);
-
-                //Check if get the correct object
-                if(rootObject != null && rootObject.tag == "Tools" && rootObject.layer == LayerMask.NameToLayer("Environmental"))
+                FindEnvironmentalParent(hit.collider.gameObject);
+            }
+            else     //If not hitting a interactable object
+            {
+                //If the pointer pointed at something before
+                if(pointObject != null)
                 {
-                    rootObject.GetComponent<HighLight>().ifHighLight = true;
+                    //Reset that color
+                    pointObject.GetComponent<HighLight>().ifHighLight = false;
+
+                    //Reset line color
+                    m_LineRenderer.startColor = new Color(255, 255, 255);
+
+                    pointObject = null;
                 }
             }
         }
@@ -51,17 +60,36 @@ public class Pointer : MonoBehaviour
         {
             m_LineRenderer.SetPosition(0, curPos);
             m_LineRenderer.SetPosition(1, curPos + forDir * m_DefaultLength);
+
+            //If the pointer pointed at something before
+            if (pointObject != null)
+            {
+                //Reset that color
+                pointObject.GetComponent<HighLight>().ifHighLight = false;
+
+                //Reset line color
+                m_LineRenderer.startColor = new Color(255, 255, 255);
+
+                pointObject = null;
+            }
         }
     }
 
     private GameObject FindEnvironmentalParent(GameObject child)
     {
-        if(child.layer == LayerMask.NameToLayer("Environmental") && child.tag != "Tools")
+        if(child.layer == 9 && child.tag != "Tools")
         {
             FindEnvironmentalParent(child.transform.parent.gameObject);
         }
-        else if(child.layer == LayerMask.NameToLayer("Environmental") && child.tag == "Tools")
+        else if(child.layer == 9 && child.tag == "Tools")
         {
+            pointObject = child;
+
+            //Highlight the object
+            pointObject.GetComponent<HighLight>().ifHighLight = true;
+            
+            //Chang the line color
+            m_LineRenderer.startColor = new Color(255, 0, 0);
             return child;
         }
         return null;
