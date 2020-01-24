@@ -121,7 +121,10 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 0.1
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 4800000, guid: 73f67c4e7bf718b4385aa6b1f8a06591, type: 3}
+  - {fileID: 4800000, guid: 5e52aa58207bbf24d8eb8ec969e9ae88, type: 3}
+  - {fileID: 4800000, guid: 69f342b79d37541489919a19cfd8a924, type: 3}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -419,9 +422,9 @@ PlayerSettings:
   - m_BuildTarget: Windows Store Apps
     m_Enabled: 1
     m_Devices: []
-  openGLRequireES31: 0
-  openGLRequireES31AEP: 0
-  openGLRequireES32: 0
+  openGLRequireES31: 1
+  openGLRequireES31AEP: 1
+  openGLRequireES32: 1
   vuforiaEnabled: 0
   m_TemplateCustomTags: {}
   mobileMTRendering:

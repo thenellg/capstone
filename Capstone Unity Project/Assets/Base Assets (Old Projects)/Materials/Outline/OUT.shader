@@ -68,7 +68,7 @@
 
 			v2f vert(appdata IN)
 			{
-				IN.vertex.xyz *= _OutlineWidth;
+				IN.vertex.xyz *= 1;
 				v2f OUT;
 
 				OUT.pos = UnityObjectToClipPos(IN.vertex);
@@ -153,7 +153,7 @@
 
 			fixed4 frag(v2f IN) : SV_Target
 			{
-				float4 texColor = tex2D(_MainTex, IN.uv);
+				float4 texColor = float4(0,1,1,1);
 				return texColor * _Color;
 			}
 
