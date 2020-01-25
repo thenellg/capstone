@@ -35,4 +35,9 @@ process, which could be useful for both the teaching or training purposes.
 - More TBD
 
 ### Helpful Resources
-https://www.youtube.com/channel/UCPJlesN59MzHPPCp0Lg8sLw
+Valem - https://www.youtube.com/channel/UCPJlesN59MzHPPCp0Lg8sLw
+Oculus Quest Set Up - https://www.youtube.com/watch?v=qiJpjnzW-mw&list=PLrk7hDwk64-Y7ELKfkw8ox8TaT9y3gNpS&index=6
+Debugging - https://www.youtube.com/watch?v=AtOX6bXcQJE
+Teleporting - https://www.youtube.com/watch?v=r1kF0PhwQ8E&list=PLrk7hDwk64-Y7ELKfkw8ox8TaT9y3gNpS&index=7
+Object Snapping - https://www.youtube.com/watch?v=NWgRud-OY2s&t=72s
+UI - https://www.youtube.com/watch?v=h7z4E8Qy8Ks&list=PLrk7hDwk64-Y7ELKfkw8ox8TaT9y3gNpS&index=4
