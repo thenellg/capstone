@@ -6,8 +6,10 @@ public class Nail : Tools
 {
     private bool ifNailed;              //If the nail been connected to a structural object
     private bool ifTouching;
+    private bool ifFreeze;
     private GameObject head, middle, end, header, ender;
 
+    private GameObject structureGroupPrefab;
     private GameObject structureGroup;      //The list of connected object
     private List<GameObject> connected;
 
@@ -25,6 +27,7 @@ public class Nail : Tools
 
         ifNailed = false;
         ifTouching = false;
+        ifFreeze = false;
 
         mLine = GetComponent<LineRenderer>();
     }
@@ -40,11 +43,13 @@ public class Nail : Tools
             //Cast a ray to check if pointing at structure object
             RaycastHit hit;
             Ray ray = new Ray(head.transform.position, forward);
-            Physics.Raycast(ray, out hit, 2.0f);
-            if (hit.collider.tag == "Structure")
+            if (Physics.Raycast(ray, out hit, 2.0f))
             {
-                mLine.SetPosition(0, head.transform.position);
-                mLine.SetPosition(1, hit.point);
+                if (hit.collider.tag == "Structure")
+                {
+                    mLine.SetPosition(0, head.transform.position);
+                    mLine.SetPosition(1, hit.point);
+                }
             }
             else      //If hit nothing
             {
@@ -52,14 +57,32 @@ public class Nail : Tools
                 mLine.SetPosition(1, head.transform.position);
             }
         }
+
+        //If the user enter X now, freez the nail
+        if (OVRInput.GetDown(OVRInput.RawButton.X))
+        {
+            ifFreeze = !ifFreeze;
+        }
+
+        if (ifFreeze)
+        {
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        }
+        else
+        {
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        }
     }
 
     //Called when a hammer hit nail (call by hammer)
-    public void HitByHammer(Vector3 directionHit)
+    public void HitByHammer(Vector3 directionHit, GameObject managerPrefab)
     {
         //Debug
         transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 0, 255);
         //Debug
+
+        //Receive the prefab
+        structureGroupPrefab = managerPrefab;
 
         //Check if the head was touching something
         if (ifTouching == true)
@@ -105,31 +128,43 @@ public class Nail : Tools
                     //Get the target object
                     GameObject currentTarget = contact.otherCollider.gameObject;
 
+                    //Debug
+                    currentTarget.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
+                    //Debug
+
                     //Check if start to nail
                     if (ifNailed)
                     {
                         //Debug
-                        //transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 0, 0);
+                        transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 0, 0);
                         //Debug
 
                         //Create a new group if don't have one
                         if (structureGroup == null)
                         {
-                            structureGroup = new GameObject();
+                            structureGroup = GameObject.Instantiate(structureGroupPrefab);
 
-                            //Add the nail and target into the same group
-                            transform.parent = structureGroup.transform;
-                            currentTarget.transform.parent = structureGroup.transform;
+                            //Debug
+                            currentTarget.GetComponent<Renderer>().material.color = new Color(0, 255, 255);
+                            //Debug
 
                             //Freeze the nail and target object
                             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                             currentTarget.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+
+                            //Add the nail and target into the same group
+                            transform.parent = structureGroup.transform;
+                            currentTarget.transform.parent = structureGroup.transform;
 
                             //Put the first structure object into the connected list
                             connected.Add(currentTarget);
                         }
                         else if(structureGroup)      //If already exist a connected group
                         {
+                            //Debug
+                            currentTarget.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
+                            //Debug
+
                             //Check if the strcuture object already in the connect list
                             bool ifInside = false;
                             foreach(GameObject connect in connected)

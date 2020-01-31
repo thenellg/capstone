@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Structure : MonoBehaviour
 {
+    public GameObject trackingManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +16,14 @@ public class Structure : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void setManager(GameObject manager)
+    {
+        trackingManager = manager;
+
+        //Debug
+        gameObject.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
+        //Debug
     }
 }

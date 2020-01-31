@@ -5,6 +5,8 @@ using UnityEngine;
 public class Hammer : Tools
 {
     protected GameObject handle, head, headhead, headend;
+    public GameObject managerPrefab;                            //The structure manager prefab, used to hold the object when nailing the nail into an object
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,11 +52,11 @@ public class Hammer : Tools
                     Vector3 directionHit = transform.GetChild(3).transform.position -
                         transform.GetChild(2).transform.position;
 
-                    nail.GetComponent<Nail>().HitByHammer(directionHit);
+                    nail.GetComponent<Nail>().HitByHammer(directionHit, managerPrefab);
 
                     //Debug
                     //Debug.Log("Leave!");
-                    transform.gameObject.GetComponent<Renderer>().material.color = new Color(0, 255, 255);
+                    transform.gameObject.GetComponent<Renderer>().material.color = new Color(0, 255, 255); 
                     //Debug
                 }
             }
