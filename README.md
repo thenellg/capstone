@@ -26,14 +26,6 @@ process, which could be useful for both the teaching or training purposes.
 - [ ] Code Freeze (Spring Term)
 - TBD
 
-### Personal Deadlines
-- [ ] 1.19.2020 - Player Controller *BETA*
-- [ ] 1.26.2020 - Environment Module: Object Controller *BETA*
-- [ ] 1.29.2020 - Environment Module: Physical Controller *BETA*
-- [ ] 2.05.2020 - Event Module: Tutorial Module *BETA*
-- [ ] 2.09.2020 - Event Module: Evaluation Module *BETA*
-- More TBD
-
 ### Helpful Resources
 - Valem - https://www.youtube.com/channel/UCPJlesN59MzHPPCp0Lg8sLw
 - Oculus Quest Set Up - https://www.youtube.com/watch?v=qiJpjnzW-mw&list=PLrk7hDwk64-Y7ELKfkw8ox8TaT9y3gNpS&index=6
