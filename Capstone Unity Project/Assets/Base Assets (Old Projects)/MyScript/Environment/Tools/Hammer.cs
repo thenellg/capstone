@@ -33,6 +33,7 @@ public class Hammer : Tools
         //Check where hit what
         foreach (ContactPoint contact in collision.contacts)
         {
+            //If the hammer hit something with its head
             if(contact.thisCollider.gameObject.name == "HeadHead")
             {
                 //Debug
@@ -56,7 +57,7 @@ public class Hammer : Tools
 
                     //Debug
                     //Debug.Log("Leave!");
-                    transform.gameObject.GetComponent<Renderer>().material.color = new Color(0, 255, 255); 
+                    transform.gameObject.GetComponent<Renderer>().material.color = new Color(0, 255, 255);
                     //Debug
                 }
             }

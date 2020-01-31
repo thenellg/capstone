@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EzySlice;
 
 public class Tools : MonoBehaviour
 {
-    protected bool ifActive;
+    protected bool ifHold;
 
     // Start is called before the first frame update
     void Start()
     {
-        ifActive = false;
+        ifHold = false;
     }
 
     // Update is called once per frame
@@ -20,7 +21,12 @@ public class Tools : MonoBehaviour
 
     virtual public void Use()
     {
+        ifHold = true;
+    }
 
+    virtual public void StopUse()
+    {
+        ifHold = false;
     }
 
 }
