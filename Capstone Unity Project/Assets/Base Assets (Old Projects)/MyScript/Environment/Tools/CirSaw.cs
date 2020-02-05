@@ -7,6 +7,7 @@ public class CirSaw : Tools
 {
     private GameObject currentObject;
     private GameObject targetObject;
+    public GameObject cutPlane;
     public GameObject Saw;
 
     // Start is called before the first frame update
@@ -77,7 +78,7 @@ public class CirSaw : Tools
 
     private void CutObject()
     {
-        GameObject[] newChild = targetObject.SliceInstantiate(Saw.transform.position, Saw.transform.up);
+        GameObject[] newChild = targetObject.SliceInstantiate(cutPlane.transform.position, cutPlane.transform.up);
 
         //Check if success
         if(newChild != null)
@@ -89,6 +90,10 @@ public class CirSaw : Tools
             {
                 //Free the new generated object
                 child.transform.parent = null;
+
+                //Change the layer and tag of the child
+                child.layer = 9;
+                child.tag = "Structure";
 
                 //Give them rigid body and colliderbox
                 child.AddComponent<Rigidbody>();
