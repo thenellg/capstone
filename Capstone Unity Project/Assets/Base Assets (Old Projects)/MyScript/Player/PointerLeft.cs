@@ -92,7 +92,7 @@ public class PointerLeft : MonoBehaviour
     {
         if(child.layer == 9 && child.tag != "Tools")
         {
-            FindEnvironmentalParent(child.transform.parent.gameObject);
+            return FindEnvironmentalParent(child.transform.parent.gameObject);
         }
         else if(child.layer == 9 && child.tag == "Tools")
         {

@@ -69,6 +69,6 @@ public class Hammer : Tools
         base.Use();
 
         //Set tools to be active
-        ifActive = true;
+        ifHold = true;
     }
 }

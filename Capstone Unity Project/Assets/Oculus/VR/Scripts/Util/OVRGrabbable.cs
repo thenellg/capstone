@@ -101,18 +101,18 @@ public class OVRGrabbable : MonoBehaviour
         get { return m_grabbedCollider.attachedRigidbody; }
     }
 
-	/// <summary>
-	/// The contact point(s) where the object was grabbed.
-	/// </summary>
+    /// <summary>
+    /// The contact point(s) where the object was grabbed.
+    /// </summary>
     public Collider[] grabPoints
     {
         get { return m_grabPoints; }
     }
 
-	/// <summary>
-	/// Notifies the object that it has been grabbed.
-	/// </summary>
-	virtual public void GrabBegin(OVRGrabber hand, Collider grabPoint)
+    /// <summary>
+    /// Notifies the object that it has been grabbed.
+    /// </summary>
+    virtual public void GrabBegin(OVRGrabber hand, Collider grabPoint)
     {
         m_grabbedBy = hand;
         m_grabbedCollider = grabPoint;
