@@ -29,4 +29,16 @@ public class Tools : MonoBehaviour
         ifHold = false;
     }
 
+    protected GameObject FindStructureParent(GameObject child)
+    {
+        if (child.layer == 9 && child.tag != "Structure")
+        {
+            return FindStructureParent(child.transform.parent.gameObject);
+        }
+        else if (child.layer == 9 && child.tag == "Structure")
+        {
+            return child;
+        }
+        return null;
+    }
 }

@@ -8,6 +8,11 @@ public class CustomHandS : OVRGrabber
     private GameObject currentObject;
     private Tools currentScript;
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -17,6 +22,11 @@ public class CustomHandS : OVRGrabber
         currentScript = null;
     }
 
+    public override void Update()
+    {
+        base.Update();
+    }
+
     public override void FixedUpdate()
     {
         base.FixedUpdate();
@@ -24,8 +34,10 @@ public class CustomHandS : OVRGrabber
         //Check if the hand is holding something
         if(m_grabbedObj != null)
         {
-            //Check if grabing a tool object       
-            if(checkTag("Tools", LayerMask.NameToLayer("Environmental"), m_grabbedObj.gameObject))
+
+            //Check if grabing a tool object   
+            GameObject tempObj = FindToolParent(m_grabbedObj.gameObject);
+            if(checkTag("Tools", LayerMask.NameToLayer("Environmental"), tempObj))
             {
                 //Get the tools 
                 currentObject = m_grabbedObj.gameObject;
@@ -69,5 +81,18 @@ public class CustomHandS : OVRGrabber
             return true;
         }
         return false;
+    }
+
+    private GameObject FindToolParent(GameObject child)
+    {
+        if (child.layer == 9 && child.tag != "Tools")
+        {
+            return FindToolParent(child.transform.parent.gameObject);
+        }
+        else if (child.layer == 9 && child.tag == "Tools")
+        {
+            return child;
+        }
+        return null;
     }
 }
