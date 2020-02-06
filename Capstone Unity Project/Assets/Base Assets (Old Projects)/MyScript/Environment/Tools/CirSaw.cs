@@ -70,7 +70,7 @@ public class CirSaw : Tools
         }
 
         //Debug
-        currentObject.GetComponent<Renderer>().material.color = new Color(0, 255, 255);
+        //currentObject.GetComponent<Renderer>().material.color = new Color(0, 255, 255);
         //targetObject = currentObject;
         //CutObject();
         //Debug
@@ -102,6 +102,7 @@ public class CirSaw : Tools
 
                 //Add grabber to the child object
                 OVRGrabbable childGrabble = child.AddComponent<OVRGrabbable>();
+                childGrabble.NewGrabPoints(child.GetComponents<Collider>());
             }
         }
     }

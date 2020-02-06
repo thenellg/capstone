@@ -110,6 +110,14 @@ public class OVRGrabbable : MonoBehaviour
     }
 
     /// <summary>
+    /// Change the grabPoints list to the given colliders set by user
+    /// </summary>
+    public void NewGrabPoints(Collider[] newCollider)
+    {
+        m_grabPoints = newCollider;
+    }
+
+    /// <summary>
     /// Notifies the object that it has been grabbed.
     /// </summary>
     virtual public void GrabBegin(OVRGrabber hand, Collider grabPoint)
