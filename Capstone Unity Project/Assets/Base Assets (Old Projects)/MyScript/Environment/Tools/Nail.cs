@@ -129,7 +129,7 @@ public class Nail : Tools
                     GameObject currentTarget = contact.otherCollider.gameObject;
 
                     //Debug
-                    currentTarget.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
+                    //currentTarget.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
                     //Debug
 
                     //Check if start to nail
@@ -142,15 +142,18 @@ public class Nail : Tools
                         //Create a new group if don't have one
                         if (structureGroup == null)
                         {
+                            //Generate the structure group manager to handle nailed object
                             structureGroup = GameObject.Instantiate(structureGroupPrefab);
+                            structureGroup.transform.position = transform.position;
+                            structureGroup.transform.parent = null;
 
                             //Debug
-                            currentTarget.GetComponent<Renderer>().material.color = new Color(0, 255, 255);
+                            currentTarget.GetComponent<Renderer>().material.color = new Color(0, 255, 0);
                             //Debug
 
                             //Freeze the nail and target object
-                            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-                            currentTarget.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                            //GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                            //currentTarget.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
                             //Add the nail and target into the same group
                             transform.parent = structureGroup.transform;

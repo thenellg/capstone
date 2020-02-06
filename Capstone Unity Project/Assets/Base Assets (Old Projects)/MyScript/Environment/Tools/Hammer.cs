@@ -38,7 +38,7 @@ public class Hammer : Tools
             {
                 //Debug
                 //Debug.Log(contact.otherCollider.transform.parent.gameObject.name);
-                transform.gameObject.GetComponent<Renderer>().material.color = new Color(255, 255, 0);
+                //transform.gameObject.GetComponent<Renderer>().material.color = new Color(255, 255, 0);
                 //Debug
 
                 //Check if hit the nail
