@@ -64,13 +64,16 @@ public class Nail : Tools
             ifFreeze = !ifFreeze;
         }
 
-        if (ifFreeze)
+        if (gameObject.GetComponent<Rigidbody>() != null)
         {
-            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        }
-        else
-        {
-            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            if (ifFreeze)
+            {
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            }
+            else
+            {
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            }
         }
     }
 
@@ -151,9 +154,9 @@ public class Nail : Tools
                             currentTarget.GetComponent<Renderer>().material.color = new Color(0, 255, 0);
                             //Debug
 
-                            //Freeze the nail and target object
-                            //GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-                            //currentTarget.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                            //Remove the rigidbody
+                            Destroy(gameObject.GetComponent<Rigidbody>());
+                            Destroy(currentTarget.GetComponent<Rigidbody>());
 
                             //Add the nail and target into the same group
                             transform.parent = structureGroup.transform;
