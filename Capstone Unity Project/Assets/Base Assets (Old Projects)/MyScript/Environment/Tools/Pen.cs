@@ -5,6 +5,7 @@ using UnityEngine;
 public class Pen : Tools
 {
     private GameObject tip;
+    private GameObject writer;
     private GameObject eraser;
     private Vector3 direction;
     private GameObject currentLine;
@@ -17,6 +18,9 @@ public class Pen : Tools
     {
         //Start track the tip
         tip = transform.Find("Tip").gameObject;
+
+        //Start track the writer
+        writer = transform.Find("Writer").gameObject;
 
         //Start track the eraser
         eraser = transform.Find("Eraser").gameObject;
@@ -74,7 +78,7 @@ public class Pen : Tools
             foreach(ContactPoint contact in collision.contacts)
             {
                 //Find the tip's collision
-                if(ReferenceEquals(contact.thisCollider.gameObject, tip))
+                if(ReferenceEquals(contact.thisCollider.gameObject, writer))
                 {
                     //Get the target object
                     GameObject target = contact.otherCollider.gameObject;
@@ -82,9 +86,16 @@ public class Pen : Tools
                     //Keep drawing the line if still touching
                     if(currentLine != null)
                     {
-                        //Set the point
-                        currentLineRenderer.positionCount = currentLineRenderer.positionCount + 1;
-                        currentLineRenderer.SetPosition(currentLineRenderer.positionCount - 1, tip.transform.position);
+                        //Raycast to find the intersection
+                        RaycastHit hit;
+                        Vector3 direction = writer.transform.position - tip.transform.position;
+                        float distance = Vector3.Distance(tip.transform.position, writer.transform.position);
+                        if(Physics.Raycast(tip.transform.position, direction, out hit, distance))
+                        {
+                            //Set the point
+                            currentLineRenderer.positionCount = currentLineRenderer.positionCount + 1;
+                            currentLineRenderer.SetPosition(currentLineRenderer.positionCount - 1, hit.point);
+                        }
                     }
                 }
             }
