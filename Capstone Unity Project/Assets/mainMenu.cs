@@ -2,27 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-
 public class mainMenu : MonoBehaviour
 {
-    public string sceneName;
-    public string animationsName;
+    public int playerLives;
+    public int numRounds;
 
-    public Image black;
-    public Animator anim;
+    public Animator animator;
 
-    public void loadingScene()
+
+    public void NewGame()
     {
-        //Put our main gameplay scene will go after this within our build.
-        StartCoroutine(fadingTransition(sceneName));
-
+        SceneManager.LoadScene(1);
+        PlayerPrefs.SetInt("NumRounds", numRounds);
+        PlayerPrefs.SetInt("roundResults", 0);
     }
 
-    public void loadingAnimations()
+    public void playGame ()
     {
         //Put our main gameplay scene will go after this within our build.
-        StartCoroutine(fadingTransition(animationsName));
+
+        //animator.SetTrigger("FadeOut");
+        SceneManager.LoadScene(1);
 
     }
 
@@ -30,13 +30,6 @@ public class mainMenu : MonoBehaviour
     {
         Debug.Log("Quit.");
         Application.Quit();
-    }
-
-    IEnumerator fadingTransition(string newScene)
-    {
-        anim.SetBool("Fade", true);
-        yield return new WaitUntil(() => black.color.a == 1);
-        SceneManager.LoadScene(newScene);
     }
 
 }
