@@ -61,11 +61,19 @@ public class Meter : Tools
         //Check if being held by player
         if(ifHold)
         {
+            //Debug
+            GetComponent<Renderer>().material.color = new Color(0, 255, 255);
+            //Debug
+
             //Check if the player trigger the button
             if(OVRInput.Get(OVRInput.RawButton.X) || OVRInput.Get(OVRInput.RawButton.A))
             {
+                //Debug
+                GetComponent<Renderer>().material.color = new Color(0, 0, 255);
+                //Debug
+
                 //If not connect to any of the object, then attach the hang point on the object
-                if(!ifConnect && currentTouching != null)
+                if (!ifConnect && currentTouching != null)
                 {
                     //Release the hang point, set parent to the touching object
                     hangPoint.transform.parent = currentTouching.transform;
