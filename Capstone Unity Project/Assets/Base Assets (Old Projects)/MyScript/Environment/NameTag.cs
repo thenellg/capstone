@@ -11,7 +11,7 @@ public class NameTag : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("yes");
+        //Debug.Log("yes");
         tag = Instantiate(tagPreFab, GameObject.Find("Canvas").transform).GetComponent<Text>();
         tag.gameObject.SetActive(false);
     }

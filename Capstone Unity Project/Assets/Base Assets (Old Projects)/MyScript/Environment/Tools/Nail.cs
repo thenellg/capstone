@@ -81,7 +81,7 @@ public class Nail : Tools
     public void HitByHammer(Vector3 directionHit, GameObject managerPrefab)
     {
         //Debug
-        transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 0, 255);
+        //transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 0, 255);
         //Debug
 
         //Receive the prefab
