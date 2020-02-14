@@ -11,7 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Michael.unity
     guid: 436dacf9dc04567459ff967dfa001973
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Griffin - TEST.unity
     guid: 4ba232650bffd7745b95ba7aba6e92e7
+  - enabled: 1
+    path: Assets/Scenes/animations/1_Wall_Layout_Steps/1_Wall_Layout_Step0.unity
+    guid: b77a06590794284408558dc889f6acdc
+  - enabled: 1
+    path: Assets/Scenes/animations/1_Wall_Layout_Steps/1_Wall_Layout_Step1.unity
+    guid: 308b1d06c43d61a4f9e00e0701017d90
   m_configObjects: {}

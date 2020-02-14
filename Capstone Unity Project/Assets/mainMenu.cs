@@ -17,12 +17,21 @@ public class mainMenu : MonoBehaviour
         PlayerPrefs.SetInt("roundResults", 0);
     }
 
-    public void playGame ()
+    public void playGame()
     {
         //Put our main gameplay scene will go after this within our build.
 
         //animator.SetTrigger("FadeOut");
         SceneManager.LoadScene(1);
+
+    }
+
+    public void playAnims()
+    {
+        //Put our main gameplay scene will go after this within our build.
+
+        //animator.SetTrigger("FadeOut");
+        SceneManager.LoadScene(2);
 
     }
 
