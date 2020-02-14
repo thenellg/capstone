@@ -5,12 +5,16 @@ using UnityEngine;
 public class ChalkLine : Tools
 {
     public GameObject hangPoint;
+    private GameObject resetObj;
+    private GameObject resetPos;
+    private Vector3 hangPosition;
+
     public GameObject lineTracePrefab;
     private GameObject lineTrace;
     private LineRenderer line;
-    private Vector3 resetPosition;
-    private Vector3 hangPosition;
+
     private GameObject currentTouching;
+
     private bool ifConnect;
     private bool ifFlick;
 
@@ -19,36 +23,46 @@ public class ChalkLine : Tools
     {
         ifConnect = false;
         ifFlick = false;
+
         currentTouching = null;
         lineTrace = null;
         hangPosition = new Vector3(0, 0, 0);
-        resetPosition = transform.position;
 
         line = gameObject.GetComponent<LineRenderer>();
+
+        resetObj = transform.Find("Reset").gameObject;
+        resetPos = transform.Find("ResetPos").gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
         //Show the line during the prepare phase
-        if(ifConnect && !ifFlick)
+        if(ifConnect && ifHold && !ifFlick)
         {
-            line.SetPosition(0, hangPoint.transform.position);
-            line.SetPosition(1, transform.position + resetPosition);
+            //Update the line
+            line.SetPosition(0, resetObj.transform.position);
+            line.SetPosition(1, hangPoint.transform.position);
         }
-        else if(ifConnect && ifFlick)
+        else if(ifConnect && ifFlick && ifHold)
         {
             if(OVRInput.Get(OVRInput.RawButton.Y))
             {
                 //Release the line
                 lineTrace = null;
+
                 //Return the hangPoint
                 hangPoint.transform.parent = transform;
-                hangPoint.transform.position = resetPosition;
+                hangPoint.transform.position = resetPos.transform.position;
+                hangPoint.transform.rotation = resetObj.transform.rotation;
 
                 //Reset the flag
                 ifConnect = false;
                 ifFlick = false;
+
+                //Reset the line
+                line.SetPosition(0, new Vector3(0, 0, 0));
+                line.SetPosition(1, new Vector3(0, 0, 0));
             }
         }
     }
@@ -66,13 +80,13 @@ public class ChalkLine : Tools
         }
 
         //Check if being held by player
-        if(ifHold)
+        if (ifHold)
         {
             //Check if the player trigger the button
-            if(OVRInput.Get(OVRInput.RawButton.X) || OVRInput.Get(OVRInput.RawButton.A))
+            if (OVRInput.Get(OVRInput.RawButton.X) || OVRInput.Get(OVRInput.RawButton.A))
             {
                 //If not connect to any of the object, then attach the hang point on the object
-                if(!ifConnect && currentTouching != null)
+                if (!ifConnect && currentTouching != null)
                 {
                     //Release the hang point, set parent to the touching object
                     hangPoint.transform.parent = currentTouching.transform;
@@ -80,20 +94,29 @@ public class ChalkLine : Tools
                     hangPoint.transform.position = hangPosition;
                     //Update the status
                     ifConnect = true;
+
+                    //Update the line
+                    line.SetPosition(0, resetObj.transform.position);
+                    line.SetPosition(1, hangPoint.transform.position);
                 }
+            }
+            else if (OVRInput.Get(OVRInput.RawButton.Y))
+            {
                 //If connected but not flick yet, then try to flick
-                else if(ifConnect && currentTouching != null && !ifFlick)
+                if (ifConnect && currentTouching != null && !ifFlick)
                 {
                     //Instantiate the line prefab
                     lineTrace = Instantiate(lineTracePrefab);
+
+                    //Set the start and end point
+                    lineTrace.GetComponent<LineRenderer>().SetPosition(0, hangPoint.transform.position);
+                    lineTrace.GetComponent<LineRenderer>().SetPosition(1, hangPosition);
                     //Transfer to the target object
                     lineTrace.transform.parent = currentTouching.transform;
-                    //Set the start and end point
-                    lineTrace.GetComponent<LineRenderer>().SetPosition(0, hangPosition);
-                    lineTrace.GetComponent<LineRenderer>().SetPosition(1, transform.position + resetPosition);
+
                     //Update the status
                     ifFlick = true;
-                }
+                }  
             }
         }
     }

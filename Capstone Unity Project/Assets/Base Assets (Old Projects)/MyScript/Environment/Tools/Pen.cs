@@ -28,6 +28,8 @@ public class Pen : Tools
         currentLine = null;
 
         currentLineRenderer = null;
+
+        ifHold = false;
     }
 
     // Update is called once per frame
@@ -39,6 +41,8 @@ public class Pen : Tools
 
         //Debug
         //Debug.Log("Active!");
+        if (GetComponent<Rigidbody>().isKinematic)
+            Debug.Log("Kinematic!");
         //Debug
     }
 
@@ -47,7 +51,7 @@ public class Pen : Tools
         if(currentLine == null)
         {
             //Check if hold by player, set activated
-            if (true)
+            if (ifHold)
             {
                 //Tracking all the possible collision
                 foreach (ContactPoint contact in collision.contacts)
@@ -58,6 +62,7 @@ public class Pen : Tools
                         //Create a line mark and start to tracking it
                         currentLine = Instantiate(linePrefab, tip.transform.position, tip.transform.rotation);
                         currentLineRenderer = currentLine.GetComponent<LineRenderer>();
+                        currentLine.transform.parent = contact.otherCollider.transform;
 
                         //Set the first point
                         currentLineRenderer.SetPosition(0, tip.transform.position);
@@ -70,12 +75,20 @@ public class Pen : Tools
 
     private void OnCollisionStay(Collision collision)
     {
+        //Debug
+        Debug.Log("Touching!");
+        //Debug
 
         //Check if hold by player, set activated
-        if (true)
+        if (ifHold)
         {
+            //Debug
+            Debug.Log("Active!");
+            //GetComponent<Renderer>().material.color = new Color(0, 255, 255);
+            //Debug
+
             //Tracking all the possible collision
-            foreach(ContactPoint contact in collision.contacts)
+            foreach (ContactPoint contact in collision.contacts)
             {
                 //Find the tip's collision
                 if(ReferenceEquals(contact.thisCollider.gameObject, writer))
@@ -118,5 +131,15 @@ public class Pen : Tools
                 currentLineRenderer = null;
             }
         }
+    }
+
+    public override void Use()
+    {
+        base.Use();
+        ifHold = true;
+
+        //Denug
+        Debug.Log("Pencil Access!");
+        //Debug
     }
 }
