@@ -44,7 +44,7 @@ public class Hammer : Tools
                 //Check if hit the nail
                 if (contact.otherCollider.gameObject.transform.parent.gameObject.name == "Nail")
                 {
-                    //Debug.Log("Enter!");
+                    Debug.Log("Hammer Hit");
 
                     //Get the game object
                     GameObject nail = contact.otherCollider.transform.parent.gameObject;

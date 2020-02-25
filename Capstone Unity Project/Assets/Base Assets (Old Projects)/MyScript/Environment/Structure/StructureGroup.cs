@@ -40,24 +40,30 @@ public class StructureGroup : MonoBehaviour
                 child.GetComponent<Renderer>().material.color = new Color(0, 0, 255);
                 //Debug
 
-                //Disable all the child's rigidbody
-                if (child.gameObject.GetComponent<Rigidbody>() != null)
+                //Add fixed joint to the child
+                if (child.gameObject.GetComponent<Rigidbody>() != null &&
+                    child.gameObject.GetComponent<FixedJoint>() == null)
                 {
-                    //child.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-                    //child.gameObject.GetComponent<Rigidbody>().useGravity = false;
-                    Destroy(child.gameObject.GetComponent<Rigidbody>());
+                    child.gameObject.AddComponent<FixedJoint>();
+                    child.gameObject.GetComponent<FixedJoint>().connectedBody = GetComponent<Rigidbody>();
                 }
 
-                    //Diable all the child's OVR grabble if exist
-                    //if (child.gameObject.GetComponent<OVRGrabbable>() != null)
-                    //Destroy(child.gameObject.GetComponent<OVRGrabbable>());
+                //Disable all the child's OVR grabble if exist
+                if (child.gameObject.GetComponent<OVRGrabbable>() != null)
+                {
+                    //child.gameObject.GetComponent<OVRGrabbable>().enabled = false;
+                    Destroy(child.gameObject.GetComponent<OVRGrabbable>());
+                }
 
-                    //Tell them I'm the MASTER OF SCRIPT!
+                //Tell them I'm the MASTER OF SCRIPT!
                 if (child.gameObject.tag == "Structure")
                 {
                     Structure childScript = child.gameObject.GetComponent<Structure>();
                     childScript.setManager(gameObject);
                 }
+
+                //Change the layer
+                child.gameObject.layer = LayerMask.NameToLayer("SG Object");
             }
         }
 

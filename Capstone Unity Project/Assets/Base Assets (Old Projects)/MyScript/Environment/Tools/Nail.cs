@@ -11,7 +11,7 @@ public class Nail : Tools
 
     private GameObject structureGroupPrefab;
     private GameObject structureGroup;      //The list of connected object
-    private List<GameObject> connected;
+    public List<GameObject> connected;
 
     private LineRenderer mLine;
     private Vector3 forward;
@@ -103,11 +103,23 @@ public class Nail : Tools
 
             //Connect the nail with other object
 
+
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        //Debug
+        Debug.Log("Nail Collision Enter");
+        //Debug
     }
 
     private void OnCollisionStay(Collision collision)
     {
+        //Debug
+        Debug.Log(collision.contactCount);
+        //Debug
+
         foreach(ContactPoint contact in collision.contacts)
         {
             //Check if the head is colliding with an structural object
@@ -132,7 +144,7 @@ public class Nail : Tools
                     GameObject currentTarget = contact.otherCollider.gameObject;
 
                     //Debug
-                    //currentTarget.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
+                    currentTarget.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
                     //Debug
 
                     //Check if start to nail
@@ -151,19 +163,21 @@ public class Nail : Tools
                             structureGroup.transform.parent = null;
 
                             //Debug
-                            currentTarget.GetComponent<Renderer>().material.color = new Color(0, 255, 0);
+                            Debug.Log("SG Created");
                             //Debug
 
-                            //Remove the rigidbody
-                            Destroy(gameObject.GetComponent<Rigidbody>());
-                            Destroy(currentTarget.GetComponent<Rigidbody>());
+                            //Debug
+                            currentTarget.GetComponent<Renderer>().material.color = new Color(0, 255, 0);
+                            //Debug
 
                             //Add the nail and target into the same group
                             transform.parent = structureGroup.transform;
                             currentTarget.transform.parent = structureGroup.transform;
 
                             //Put the first structure object into the connected list
-                            connected.Add(currentTarget);
+
+                            if(currentTarget != null)
+                                connected.Add(currentTarget);
                         }
                         else if(structureGroup)      //If already exist a connected group
                         {
@@ -183,6 +197,10 @@ public class Nail : Tools
                             }
                             if(!ifInside)
                             {
+                                //Debug
+                                Debug.Log("Nail Adding Object");
+                                //Debug
+
                                 //Add the target into the group
                                 currentTarget.transform.parent = structureGroup.transform;
 
@@ -195,4 +213,12 @@ public class Nail : Tools
             }
         }
     }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        //Debug
+        //Debug.Log("Head Leave!");
+        //Debug
+    }
 }
+

@@ -274,6 +274,10 @@ public class OVRGrabber : MonoBehaviour
 
             m_grabbedObj = closestGrabbable;
             m_grabbedObj.GrabBegin(this, closestGrabbableCollider);     //Here the hand was given to the object
+            
+            //Debug
+            //Debug.Log("Grab Begin!");
+            //Debug
 
             m_lastPos = transform.position;
             m_lastRot = transform.rotation;
