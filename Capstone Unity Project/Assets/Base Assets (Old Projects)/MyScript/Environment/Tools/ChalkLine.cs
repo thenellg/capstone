@@ -52,9 +52,9 @@ public class ChalkLine : Tools
                 lineTrace = null;
 
                 //Return the hangPoint
-                hangPoint.transform.parent = transform;
                 hangPoint.transform.position = resetPos.transform.position;
                 hangPoint.transform.rotation = resetObj.transform.rotation;
+                hangPoint.transform.parent = transform;
 
                 //Reset the flag
                 ifConnect = false;
@@ -72,7 +72,8 @@ public class ChalkLine : Tools
         //Try to find the structure object currently touching
         foreach(ContactPoint contact in collision.contacts)
         {
-            if(contact.otherCollider.gameObject.tag == "Structure")
+            if(contact.otherCollider.gameObject.tag == "Structure" &&
+                contact.thisCollider.gameObject.name == "Oggetto_7")
             {
                 currentTouching = contact.otherCollider.gameObject;
                 hangPosition = contact.point;
@@ -88,10 +89,12 @@ public class ChalkLine : Tools
                 //If not connect to any of the object, then attach the hang point on the object
                 if (!ifConnect && currentTouching != null)
                 {
-                    //Release the hang point, set parent to the touching object
-                    hangPoint.transform.parent = currentTouching.transform;
                     //Lock the point
                     hangPoint.transform.position = hangPosition;
+
+                    //Release the hang point, set parent to the touching object
+                    hangPoint.transform.parent = currentTouching.transform;
+
                     //Update the status
                     ifConnect = true;
 
