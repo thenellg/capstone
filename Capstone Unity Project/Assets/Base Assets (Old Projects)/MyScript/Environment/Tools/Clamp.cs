@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Clamp : Tools
 {
-    private GameObject baseRubber;
-    private GameObject basePart;
+    public GameObject baseRubber;
+    public GameObject basePart;
 
-    private GameObject moveRubber;
-    private GameObject movePart;
+    public GameObject moveRubber;
+    public GameObject movePart;
 
-    private GameObject firstTarget;
-    private GameObject secondTarget;
-    public GameObject structureGroupPrefab;
-    private GameObject groupManager;
+    private GameObject  firstTarget;
+    private GameObject  secondTarget;
+    public GameObject   structureGroupPrefab;
+    private GameObject  groupManager;
 
     private GameObject resetPosition;       //The reset position of the moving part
     private GameObject activePosition;      //The position of the moving part when initialize the clamp action
@@ -23,11 +23,12 @@ public class Clamp : Tools
     void Start()
     {
         //Get two rubber position
-        baseRubber = transform.Find("Head_Fixed").gameObject;
-        basePart = transform.Find("Clamp_Fixed").gameObject;
 
-        moveRubber = transform.Find("Head_Mobile").gameObject;
-        movePart = transform.Find("Clamp_Mobile").gameObject;
+        //baseRubber = transform.Find("Head_Fixed").gameObject;
+        //basePart = transform.Find("Clamp_Fixed").gameObject;
+
+        //moveRubber = transform.Find("Head_Mobile").gameObject;
+        //movePart = transform.Find("Clamp_Mobile").gameObject;
 
         resetPosition = transform.Find("Reset").gameObject;
         activePosition = transform.Find("Active").gameObject;

@@ -87,6 +87,9 @@ public class Nail : Tools
         //Receive the prefab
         structureGroupPrefab = managerPrefab;
 
+        //Disable the collision
+        GetComponent<Rigidbody>().isKinematic = true;
+
         //Check if the head was touching something
         if (ifTouching == true)
         {
@@ -100,17 +103,16 @@ public class Nail : Tools
             if(!ifNailed)
                 ifNailed = true;
             transform.position += forward * amount;
-
-            //Connect the nail with other object
-
-
         }
+
+        //Enable the collision
+        GetComponent<Rigidbody>().isKinematic = false;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         //Debug
-        Debug.Log("Nail Collision Enter");
+        //Debug.Log("Nail Collision Enter");
         //Debug
     }
 

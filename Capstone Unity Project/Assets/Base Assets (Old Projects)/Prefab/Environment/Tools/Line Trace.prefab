@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1700608745823095702}
   - component: {fileID: 1700608745823095703}
+  - component: {fileID: 4497831910947803205}
   m_Layer: 0
   m_Name: Line Trace
   m_TagString: Untagged
@@ -125,5 +126,17 @@ LineRenderer:
     textureMode: 0
     shadowBias: 0.5
     generateLightingData: 0
-  m_UseWorldSpace: 1
+  m_UseWorldSpace: 0
   m_Loop: 0
+--- !u!114 &4497831910947803205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700608745823095700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fccfe61b4b06aa0479892329d2285e25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

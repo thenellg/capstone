@@ -43,9 +43,9 @@ public class Meter : Tools
             if (OVRInput.Get(OVRInput.RawButton.Y))
             {
                 //Return the hangPoint
-                hangPoint.transform.parent = transform;
                 hangPoint.transform.position = resetPos.transform.position;
                 hangPoint.transform.rotation = resetObj.transform.rotation;
+                hangPoint.transform.parent = transform;
 
                 //Reset the flag
                 ifConnect = false;
@@ -78,7 +78,8 @@ public class Meter : Tools
         //Try to find the structure object currently touching
         foreach(ContactPoint contact in collision.contacts)
         {
-            if(contact.otherCollider.gameObject.tag == "Structure")
+            if(contact.otherCollider.gameObject.tag == "Structure" &&
+                contact.thisCollider.gameObject.name == "Oggetto_7")
             {
                 currentTouching = contact.otherCollider.gameObject;
                 hangPosition = contact.point;
@@ -88,28 +89,18 @@ public class Meter : Tools
         //Check if being held by player
         if(ifHold)
         {
-            //Debug
-            transform.Find("Oggetto_1").GetComponent<Renderer>().material.color = new Color(0, 255, 255);
-            //Debug
-
             //Check if the player trigger the button
             if(OVRInput.Get(OVRInput.RawButton.X) || OVRInput.Get(OVRInput.RawButton.A))
             {
-                //Debug
-                transform.Find("Oggetto_1").GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-                //Debug
-
                 //If not connect to any of the object, then attach the hang point on the object
                 if (!ifConnect && currentTouching != null)
                 {
-                    //Debug
-                    transform.Find("Oggetto_1").GetComponent<Renderer>().material.color = new Color(0, 0, 255);
-                    //Debug
+                    //Lock the point
+                    hangPoint.transform.position = hangPosition;
 
                     //Release the hang point, set parent to the touching object
                     hangPoint.transform.parent = currentTouching.transform;
-                    //Lock the point
-                    hangPoint.transform.position = hangPosition;
+
                     //Update the status
                     ifConnect = true;
 
