@@ -34,11 +34,18 @@ public class CustomHandS : OVRGrabber
         //Check if the hand is holding something
         if(m_grabbedObj != null)
         {
+            //Debug
+            //Debug.Log("Holding Something!");
+            //Debug
 
             //Check if grabing a tool object   
             GameObject tempObj = FindToolParent(m_grabbedObj.gameObject);
-            if(checkTag("Tools", LayerMask.NameToLayer("Environmental"), tempObj))
+            if(tempObj != null && tempObj.tag == "Tools")
             {
+                //Debug
+                //Debug.Log("Holding Tool!");
+                //Debug
+
                 //Get the tools 
                 currentObject = m_grabbedObj.gameObject;
                 lastObject = currentObject;
@@ -47,6 +54,10 @@ public class CustomHandS : OVRGrabber
                 currentScript = currentObject.GetComponent<Tools>();
                 if(currentScript != null)
                 {
+                    //Debug
+                    //Debug.Log("Access Tool Script!");
+                    //Debug
+
                     //Set the tool to be use
                     currentScript.Use();
                 }
