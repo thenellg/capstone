@@ -11,13 +11,34 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Michael.unity
     guid: 436dacf9dc04567459ff967dfa001973
-  - enabled: 0
-    path: Assets/Scenes/Griffin - TEST.unity
-    guid: 4ba232650bffd7745b95ba7aba6e92e7
+  - enabled: 1
+    path: Assets/Scenes/Animation Menu.unity
+    guid: 65affb125a152934a96f9ac33709923a
   - enabled: 1
     path: Assets/Scenes/animations/1_Wall_Layout_Steps/1_Wall_Layout_Step0.unity
     guid: b77a06590794284408558dc889f6acdc
   - enabled: 1
     path: Assets/Scenes/animations/1_Wall_Layout_Steps/1_Wall_Layout_Step1.unity
     guid: 308b1d06c43d61a4f9e00e0701017d90
+  - enabled: 1
+    path: Assets/Scenes/animations/1_Wall_Layout_Steps/1_Wall_Layout_Step2.unity
+    guid: 7b594417f404e834d9b9d10f0e647b32
+  - enabled: 1
+    path: Assets/Scenes/animations/1_Wall_Layout_Steps/1_Wall_Layout_Step3.unity
+    guid: 5a56f5d920f45d540ae2eee6207910f3
+  - enabled: 1
+    path: Assets/Scenes/animations/1_Wall_Layout_Steps/1_Wall_Layout_Step4.unity
+    guid: 84582168c2c8f0244bccbcdf65a43181
+  - enabled: 1
+    path: Assets/Scenes/animations/1_Wall_Layout_Steps/1_Wall_Layout_Step5.unity
+    guid: 0bf5f3bb4cf3f4f459ed83bfd967f4bd
+  - enabled: 1
+    path: Assets/Scenes/animations/1_Wall_Layout_Steps/1_Wall_Layout_Step6.unity
+    guid: b357370f13cbe754fa47cef1f2fa109d
+  - enabled: 1
+    path: Assets/Scenes/animations/1_Wall_Layout_Steps/1_Wall_Layout_Step7.unity
+    guid: 0373c1d97bc3f534f8cb737989f6433f
+  - enabled: 1
+    path: Assets/Scenes/animations/1_Wall_Layout_Steps/1_Wall_Layout_Step8.unity
+    guid: fd3627fcf2bf2e44ea17e5dc5d08bb50
   m_configObjects: {}
