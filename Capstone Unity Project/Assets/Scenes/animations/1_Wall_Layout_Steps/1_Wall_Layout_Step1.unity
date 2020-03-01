@@ -4021,11 +4021,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1548431644803288664, guid: 2306aafee9a20b34d8c00f25f04c684b,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8868039245244095297, guid: 2306aafee9a20b34d8c00f25f04c684b,
         type: 3}
       propertyPath: m_Layer
@@ -4035,6 +4030,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548431644803288664, guid: 2306aafee9a20b34d8c00f25f04c684b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8555055144043580336, guid: 2306aafee9a20b34d8c00f25f04c684b, type: 3}
@@ -14592,12 +14592,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 333134857}
-        m_MethodName: LoadAnimMenu
-        m_Mode: 1
+        m_MethodName: LoadA
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 1_Wall_Layout_Step2
           m_BoolArgument: 1
@@ -22793,11 +22793,6 @@ PrefabInstance:
       propertyPath: onHandClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: 1_Wall_Layout_Step2
       objectReference: {fileID: 0}
-    - target: {fileID: 5676476515472683868, guid: 9c9bc8f4e21a93d4598da0f8677d561a,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8041086799254023854, guid: 9c9bc8f4e21a93d4598da0f8677d561a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -22811,6 +22806,11 @@ PrefabInstance:
     - target: {fileID: 4743951201819942931, guid: 9c9bc8f4e21a93d4598da0f8677d561a,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5676476515472683868, guid: 9c9bc8f4e21a93d4598da0f8677d561a,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7515773901493182302, guid: 9c9bc8f4e21a93d4598da0f8677d561a,
