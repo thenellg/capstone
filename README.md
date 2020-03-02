@@ -22,9 +22,9 @@ process, which could be useful for both the teaching or training purposes.
 
 ### Official Deadlines
 - [ ] Alpha Build (Week 6: **2.14.2020**)
-- [ ] Beta Build  (Week 10: 3.02.2020 - 3.13.2020)
+- [ ] Beta Build  (Week 10: **3.17.2020**)
 - [ ] Code Freeze (Spring Term)
-- TBD
+- [ ] Engineering Expo (**5.15.2020**)
 
 ### Helpful Resources
 - Valem - https://www.youtube.com/channel/UCPJlesN59MzHPPCp0Lg8sLw
