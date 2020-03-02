@@ -20,4 +20,17 @@ public class LoadScenesA : MonoBehaviour
         Debug.Log("sceneNum to load: " + sceneNum);
         SceneManager.LoadScene(sceneNum);
     }
+
+    public void LoadLastScene(int sceneNum)
+    {
+        sceneNum = sceneNum - 2;
+        Debug.Log("sceneNum to load: " + sceneNum);
+        SceneManager.LoadScene(sceneNum);
+    }
+
+
+    public void LoadAnimMenu()
+    {
+        SceneManager.LoadScene(2);
+    }
 }

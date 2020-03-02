@@ -4,18 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class mainMenu : MonoBehaviour
 {
-    public int playerLives;
-    public int numRounds;
+    public int sceneNum;
 
     public Animator animator;
-
-
-    public void NewGame()
-    {
-        SceneManager.LoadScene(1);
-        PlayerPrefs.SetInt("NumRounds", numRounds);
-        PlayerPrefs.SetInt("roundResults", 0);
-    }
 
     public void playGame()
     {
@@ -32,6 +23,15 @@ public class mainMenu : MonoBehaviour
 
         //animator.SetTrigger("FadeOut");
         SceneManager.LoadScene(2);
+
+    }
+
+    public void changeScene(int sceneNum)
+    {
+        //Put our main gameplay scene will go after this within our build.
+
+        //animator.SetTrigger("FadeOut");
+        SceneManager.LoadScene(sceneNum);
 
     }
 

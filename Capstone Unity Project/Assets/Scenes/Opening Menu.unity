@@ -418,7 +418,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Developer by Group CS15: Griffin Thenell and Shiyao Wang'
+  m_Text: 'Developed by Group CS15: Griffin Thenell and Shiyao Wang
+
+    OSU Senior Software Engineering Project 2019-2020'
 --- !u!222 &483477820
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -507,7 +509,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Animations (Currently Unavailable)
+  m_Text: Tutorials
 --- !u!222 &625176510
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1210,11 +1212,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1548431644803288664, guid: 2306aafee9a20b34d8c00f25f04c684b,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8868039245244095297, guid: 2306aafee9a20b34d8c00f25f04c684b,
         type: 3}
       propertyPath: m_Layer
@@ -1224,6 +1221,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548431644803288664, guid: 2306aafee9a20b34d8c00f25f04c684b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8555055144043580336, guid: 2306aafee9a20b34d8c00f25f04c684b, type: 3}
@@ -1389,7 +1391,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sandbox
+  m_Text: Builder
 --- !u!222 &1126428764
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1937,8 +1939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f096eaa1638bc2498950b20b17db1b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLives: 0
-  numRounds: 0
+  sceneNum: 0
   animator: {fileID: 0}
 --- !u!4 &1303607643 stripped
 Transform:
@@ -2237,7 +2238,7 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Welcome to our Capstone Wooden Light Frame wall training simulation. To
-    build, choose sandbox. For instructions on how to build, choose animations.
+    build, choose BUILDER. For instructions on how to build, choose TUTORIALS.
 --- !u!222 &1726359753
 CanvasRenderer:
   m_ObjectHideFlags: 0
