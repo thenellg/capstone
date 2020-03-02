@@ -5780,12 +5780,12 @@ PrefabInstance:
     - target: {fileID: 5011470012964399044, guid: 9c9bc8f4e21a93d4598da0f8677d561a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadA
+      value: LoadAnimMenu
       objectReference: {fileID: 0}
     - target: {fileID: 5011470012964399044, guid: 9c9bc8f4e21a93d4598da0f8677d561a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5011470012964399044, guid: 9c9bc8f4e21a93d4598da0f8677d561a,
         type: 3}

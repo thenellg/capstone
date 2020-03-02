@@ -31,6 +31,6 @@ public class LoadScenesA : MonoBehaviour
 
     public void LoadAnimMenu()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 }

@@ -83,4 +83,61 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step13.unity
     guid: e8e2b46583289d94b87a8d7606671d81
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step0.unity
+    guid: 7fecd0cab8c82b2469c4a257b9997e83
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step1.unity
+    guid: 7f8b2ea904e62404a82e3db315c67eb0
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step2.unity
+    guid: 624fa9b6cc99ef4499aa83584c534e2a
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step3.unity
+    guid: 87fd40fc5d564e543ac1cf2a381726b6
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step4.unity
+    guid: b0bd007888c5a9149b98575de3a0361c
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step5.unity
+    guid: 54f720e83ca447247a96237cf22cdad4
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step6.unity
+    guid: b6150832002b1b74ebef4f986a4af952
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step7.unity
+    guid: 4c3ddff359ca8ce4280383ba25eed760
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step8.unity
+    guid: 5f3b9323aecf8b44bb47c5b151617845
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step9.unity
+    guid: 982bc329e72b0fd40879110ca7771360
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step10.unity
+    guid: e7f98502d15a93843b3f6e9c45cafda2
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step11.unity
+    guid: 1b081d23265b6ac4d967ea4192a45efc
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step12.unity
+    guid: 2e5968f417f79b24dad944db16d0340e
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step13.unity
+    guid: 81bfbb99d367dbb489ee45de8d283250
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step14.unity
+    guid: 5781dbb6dc3aa1a44a4e30459cee69f1
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step15.unity
+    guid: 9d68b7898044fa149a543ba827560e41
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step16.unity
+    guid: 9c300d8c6044ce0459fb42f7b7543f68
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step17.unity
+    guid: 0aecc8a1cdd6002409f6b29a1281e86a
+  - enabled: 1
+    path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step18.unity
+    guid: 755f5d90852bd9344b2583d92b857f4c
   m_configObjects: {}
