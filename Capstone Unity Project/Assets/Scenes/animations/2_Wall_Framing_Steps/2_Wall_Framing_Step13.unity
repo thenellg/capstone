@@ -5782,6 +5782,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: LoadA
       objectReference: {fileID: 0}
+    - target: {fileID: 5011470012964399044, guid: 9c9bc8f4e21a93d4598da0f8677d561a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5011470012964399044, guid: 9c9bc8f4e21a93d4598da0f8677d561a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1771811749199798399, guid: 9c9bc8f4e21a93d4598da0f8677d561a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -5827,7 +5837,8 @@ PrefabInstance:
       propertyPath: m_Text
       value: Next task
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5676476515472683868, guid: 9c9bc8f4e21a93d4598da0f8677d561a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9c9bc8f4e21a93d4598da0f8677d561a, type: 3}
 --- !u!114 &324657815 stripped
 MonoBehaviour:
@@ -5841,6 +5852,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &324657816 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7426873501408174324, guid: 9c9bc8f4e21a93d4598da0f8677d561a,
+    type: 3}
+  m_PrefabInstance: {fileID: 324657814}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &324657817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324657816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aaf960227867044282d921171d2d7ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  pointer: {fileID: 1916102228}
+  sortOrder: 0
 --- !u!1001 &329023603
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14878,7 +14914,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Step 8
+  m_Text: Good work!
 --- !u!222 &734270584
 CanvasRenderer:
   m_ObjectHideFlags: 0

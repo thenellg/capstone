@@ -41,4 +41,46 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/animations/1_Wall_Layout_Steps/1_Wall_Layout_Step8.unity
     guid: fd3627fcf2bf2e44ea17e5dc5d08bb50
+  - enabled: 1
+    path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step0.unity
+    guid: 274eff9cff06fc847b118b4026a7abf9
+  - enabled: 1
+    path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step1.unity
+    guid: 7aa67e309614a0c41b83238fa457b5b3
+  - enabled: 1
+    path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step2.unity
+    guid: 1f79950352fbe9e46bcb5b081c9dd288
+  - enabled: 1
+    path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step3.unity
+    guid: 27a875d1425cb6c43b955a595a0a2b57
+  - enabled: 1
+    path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step4.unity
+    guid: 237ed404538515a438a7c73315c6ecd0
+  - enabled: 1
+    path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step5.unity
+    guid: 929f91d50202a5740a33a017ac9b2d32
+  - enabled: 1
+    path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step6.unity
+    guid: 130bd66b55c29ea409726def6f86bd8f
+  - enabled: 1
+    path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step7.unity
+    guid: 55b586ce3a08de7459c3b308fbe5a87a
+  - enabled: 1
+    path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step8.unity
+    guid: 1ab09169ea9756e49940166a3a4c9fb2
+  - enabled: 1
+    path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step9.unity
+    guid: be7a6259cd5b34b47840600b40faf3ed
+  - enabled: 1
+    path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step10.unity
+    guid: 7e2de8dd742a43b4aa476dcc0e0f2050
+  - enabled: 1
+    path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step11.unity
+    guid: c2057f76c25585a41b556b55b430001d
+  - enabled: 1
+    path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step12.unity
+    guid: fc7e544bdd67cd24fbd92c632d276ac4
+  - enabled: 1
+    path: Assets/Scenes/animations/2_Wall_Framing_Steps/2_Wall_Framing_Step13.unity
+    guid: e8e2b46583289d94b87a8d7606671d81
   m_configObjects: {}
