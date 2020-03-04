@@ -73,7 +73,8 @@ public class ChalkLine : Tools
         //Try to find the structure object currently touching
         foreach(ContactPoint contact in collision.contacts)
         {
-            if(contact.otherCollider.gameObject.tag == "Structure")
+            if(contact.otherCollider.gameObject.tag == "Structure" &&
+                contact.thisCollider.gameObject.name == "Oggetto_7")
             {
                 currentTouching = contact.otherCollider.gameObject;
                 hangPosition = contact.point;
@@ -120,7 +121,7 @@ public class ChalkLine : Tools
 
                     //Update the status
                     ifFlick = true;
-                }  
+                }
             }
         }
     }
