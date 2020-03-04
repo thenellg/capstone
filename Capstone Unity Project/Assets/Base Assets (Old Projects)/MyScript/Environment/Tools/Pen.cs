@@ -11,6 +11,8 @@ public class Pen : Tools
     private GameObject currentLine;
     private LineRenderer currentLineRenderer;
 
+    private Texture2D currentTex;
+
     public GameObject linePrefab;
 
     // Start is called before the first frame update
@@ -29,6 +31,8 @@ public class Pen : Tools
 
         currentLineRenderer = null;
 
+        currentTex = null;
+
         ifHold = false;
     }
 
@@ -38,89 +42,80 @@ public class Pen : Tools
         //Update the direction vector
         direction = tip.transform.position - eraser.transform.position;
         direction.Normalize();
-
-        //Debug
-        //Debug.Log("Active!");
-        if (GetComponent<Rigidbody>().isKinematic)
-            Debug.Log("Kinematic!");
-        //Debug
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(currentLine == null)
+        if (currentLine == null)
         {
             //Check if hold by player, set activated
             if (ifHold)
             {
-                //Tracking all the possible collision
-                foreach (ContactPoint contact in collision.contacts)
-                {
-                    //Find the tip's collision
-                    if (ReferenceEquals(contact.thisCollider.gameObject, tip))
-                    {
-                        //Create a line mark and start to tracking it
-                        currentLine = Instantiate(linePrefab, tip.transform.position, tip.transform.rotation);
-                        currentLineRenderer = currentLine.GetComponent<LineRenderer>();
-                        currentLine.transform.parent = contact.otherCollider.transform;
+                //Create a line mark and start to tracking it
+                currentLine = Instantiate(linePrefab, tip.transform.position, tip.transform.rotation);
+                currentLineRenderer = currentLine.GetComponent<LineRenderer>();
+                currentLine.transform.parent = other.transform;
 
-                        //Set the first point
-                        currentLineRenderer.SetPosition(0, tip.transform.position);
-                        currentLineRenderer.SetPosition(1, tip.transform.position);
-                    }
-                }
+                //Raycast to find the intersection
+                RaycastHit hit;
+                Vector3 direction = writer.transform.position - tip.transform.position;
+                direction.Normalize();
+                float distance = Vector3.Distance(tip.transform.position, writer.transform.position);
+                if (Physics.Raycast(tip.transform.position, direction, out hit))
+                {
+                    //Set the first point
+                    currentLineRenderer.SetPosition(0, hit.point);
+                    currentLineRenderer.SetPosition(1, hit.point);
+                }             
             }
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnTriggerStay(Collider other)
     {
-        //Debug
-        Debug.Log("Touching!");
-        //Debug
-
         //Check if hold by player, set activated
         if (ifHold)
         {
-            //Debug
-            Debug.Log("Active!");
-            //GetComponent<Renderer>().material.color = new Color(0, 255, 255);
-            //Debug
+            //Get the target object
+            GameObject target = other.gameObject;
 
-            //Tracking all the possible collision
-            foreach (ContactPoint contact in collision.contacts)
+            //Raycast to find the intersection
+            RaycastHit hit;
+            Vector3 direction = writer.transform.position - tip.transform.position;
+            direction.Normalize();
+            float distance = Vector3.Distance(tip.transform.position, writer.transform.position);
+            if (Physics.Raycast(tip.transform.position, direction, out hit, distance))
             {
-                //Find the tip's collision
-                if(ReferenceEquals(contact.thisCollider.gameObject, writer))
-                {
-                    //Get the target object
-                    GameObject target = contact.otherCollider.gameObject;
+                //Set the point
+                currentLineRenderer.positionCount = currentLineRenderer.positionCount + 1;
+                currentLineRenderer.SetPosition(currentLineRenderer.positionCount - 1, hit.point);
 
-                    //Keep drawing the line if still touching
-                    if(currentLine != null)
-                    {
-                        //Raycast to find the intersection
-                        RaycastHit hit;
-                        Vector3 direction = writer.transform.position - tip.transform.position;
-                        float distance = Vector3.Distance(tip.transform.position, writer.transform.position);
-                        if(Physics.Raycast(tip.transform.position, direction, out hit, distance))
-                        {
-                            //Set the point
-                            currentLineRenderer.positionCount = currentLineRenderer.positionCount + 1;
-                            currentLineRenderer.SetPosition(currentLineRenderer.positionCount - 1, hit.point);
-                        }
-                    }
-                }
+                /*
+                //Try to use texture draw
+                if (currentTex == null)
+                    currentTex = target.GetComponent<Renderer>().material.mainTexture as Texture2D;
+                Vector2 pixelUV = hit.textureCoord;
+                pixelUV.x *= currentTex.width;
+                pixelUV.y *= currentTex.height;
+
+                //Debug
+                Debug.Log(pixelUV);
+                //Debug
+
+                currentTex.SetPixel((int)pixelUV.x, (int)pixelUV.y, Color.black);
+                currentTex.Apply();
+
+                //Reset the collider to be non-convex
+                target.GetComponent<MeshCollider>().convex = true;
+                */
             }
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Leave!");
-
         //Check if hold by player, set activated
-        if (true)
+        if (ifHold)
         {
             //Keep drawing the line if still touching
             if (currentLine != null)
@@ -137,9 +132,5 @@ public class Pen : Tools
     {
         base.Use();
         ifHold = true;
-
-        //Denug
-        Debug.Log("Pencil Access!");
-        //Debug
     }
 }

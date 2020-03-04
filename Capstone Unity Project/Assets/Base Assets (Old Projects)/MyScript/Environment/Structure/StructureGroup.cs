@@ -24,9 +24,7 @@ public class StructureGroup : MonoBehaviour
     }
 
     void FixedUpdate()
-    {
-        //Debug.Log("LateUpdate executed!");
-
+    { 
         //Put all the child into the tracking list
         childList = GetComponentsInChildren<Transform>();
 
@@ -36,9 +34,6 @@ public class StructureGroup : MonoBehaviour
             //Exclude self
             if (!GameObject.ReferenceEquals(child.gameObject, gameObject))
             {
-                //Debug
-                child.GetComponent<Renderer>().material.color = new Color(0, 0, 255);
-                //Debug
 
                 //Add fixed joint to the child
                 if (child.gameObject.GetComponent<Rigidbody>() != null &&

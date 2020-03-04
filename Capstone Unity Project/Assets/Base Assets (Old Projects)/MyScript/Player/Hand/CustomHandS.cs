@@ -8,6 +8,8 @@ public class CustomHandS : OVRGrabber
     private GameObject currentObject;
     private Tools currentScript;
 
+    public GameObject nailPre, studPre;
+
     protected override void Awake()
     {
         base.Awake();
@@ -25,6 +27,24 @@ public class CustomHandS : OVRGrabber
     public override void Update()
     {
         base.Update();
+
+        //Generate new nail when pressed button
+        if(OVRInput.GetDown(OVRInput.RawButton.X) && m_grabbedObj == null && gameObject.name == "CustomHandLeft")
+        {
+            GameObject newNail = Instantiate(nailPre);
+            newNail.name = "Nail";
+            newNail.transform.parent = null;
+            newNail.transform.position = transform.position;
+        }
+
+        //Generate new stud when pressed button
+        if (OVRInput.GetDown(OVRInput.RawButton.A) && m_grabbedObj == null && gameObject.name == "CustomHandRight")
+        {
+            GameObject newStud = Instantiate(studPre);
+            newStud.name = "Stud";
+            newStud.transform.parent = null;
+            newStud.transform.position = transform.position;
+        }
     }
 
     public override void FixedUpdate()

@@ -36,7 +36,8 @@ public class Nail : Tools
     void Update()
     {
         if (!ifTouching && !ifNailed)
-        {//Update the forward vector
+        {
+            //Update the forward vector
             forward = head.transform.position - end.transform.position;
             Vector3.Normalize(forward);
 
@@ -56,6 +57,11 @@ public class Nail : Tools
                 mLine.SetPosition(0, head.transform.position);
                 mLine.SetPosition(1, head.transform.position);
             }
+        }
+        else if(!ifTouching)
+        {
+            mLine.SetPosition(0, head.transform.position);
+            mLine.SetPosition(1, head.transform.position);
         }
 
         //If the user enter X now, freez the nail
@@ -80,10 +86,6 @@ public class Nail : Tools
     //Called when a hammer hit nail (call by hammer)
     public void HitByHammer(Vector3 directionHit, GameObject managerPrefab)
     {
-        //Debug
-        //transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 0, 255);
-        //Debug
-
         //Receive the prefab
         structureGroupPrefab = managerPrefab;
 
@@ -93,10 +95,6 @@ public class Nail : Tools
         //Check if the head was touching something
         if (ifTouching == true)
         {
-            //Debug
-            //transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 0, 255);
-            //Debug
-
             float amount = Vector3.Dot(directionHit, forward);
 
             //Move the nail based on direction
@@ -111,9 +109,7 @@ public class Nail : Tools
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Debug
-        //Debug.Log("Nail Collision Enter");
-        //Debug
+
     }
 
     private void OnCollisionStay(Collision collision)
@@ -127,27 +123,15 @@ public class Nail : Tools
             //Check if the head is colliding with an structural object
             if(contact.thisCollider.gameObject.name == "Head")
             {
-                //Debug
-                //transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 255, 0);
-                //Debug.Log(contact.otherCollider.gameObject.tag);
-                //Debug
 
                 if (contact.otherCollider.gameObject.tag == "Structure")
                 {
                     ifTouching = true;
 
-                    //Debug
-                    //transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-                    //Debug
-
                     /*****Start to connect structure object*****/
 
                     //Get the target object
                     GameObject currentTarget = contact.otherCollider.gameObject;
-
-                    //Debug
-                    currentTarget.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-                    //Debug
 
                     //Check if start to nail
                     if (ifNailed)
@@ -160,17 +144,9 @@ public class Nail : Tools
                         if (structureGroup == null)
                         {
                             //Generate the structure group manager to handle nailed object
-                            structureGroup = GameObject.Instantiate(structureGroupPrefab);
+                            structureGroup = Instantiate(structureGroupPrefab);
                             structureGroup.transform.position = transform.position;
                             structureGroup.transform.parent = null;
-
-                            //Debug
-                            Debug.Log("SG Created");
-                            //Debug
-
-                            //Debug
-                            currentTarget.GetComponent<Renderer>().material.color = new Color(0, 255, 0);
-                            //Debug
 
                             //Add the nail and target into the same group
                             transform.parent = structureGroup.transform;
@@ -199,10 +175,6 @@ public class Nail : Tools
                             }
                             if(!ifInside)
                             {
-                                //Debug
-                                Debug.Log("Nail Adding Object");
-                                //Debug
-
                                 //Add the target into the group
                                 currentTarget.transform.parent = structureGroup.transform;
 
@@ -218,9 +190,7 @@ public class Nail : Tools
 
     private void OnCollisionExit(Collision collision)
     {
-        //Debug
-        //Debug.Log("Head Leave!");
-        //Debug
+
     }
 }
 
