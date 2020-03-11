@@ -25,7 +25,7 @@ public class Hammer : Tools
     //Update the physics effect
     private void FixedUpdate()
     {
-        
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -47,6 +47,15 @@ public class Hammer : Tools
                         transform.GetChild(2).transform.position;
 
                     nail.GetComponent<Nail>().HitByHammer(directionHit, managerPrefab);
+                }
+                //Otherwise check if hit a structure group
+                if(contact.otherCollider.tag == "SG Manager")
+                {
+                    //Debug
+                    Debug.Log("Hit Manager");
+                    //Debug
+
+                    //Try to ask if hit the nail
                 }
             }
         }

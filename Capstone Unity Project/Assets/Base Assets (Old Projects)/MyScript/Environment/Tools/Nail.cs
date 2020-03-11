@@ -7,10 +7,10 @@ public class Nail : Tools
     private bool ifNailed;              //If the nail been connected to a structural object
     private bool ifTouching;
     private bool ifFreeze;
-    private GameObject head, middle, end, header, ender;
+    private GameObject head, end;
 
     private GameObject structureGroupPrefab;
-    private GameObject structureGroup;      //The list of connected object
+    public GameObject structureGroup;      //The list of connected object
     public List<GameObject> connected;
 
     private LineRenderer mLine;
@@ -20,10 +20,7 @@ public class Nail : Tools
     void Start()
     {
         head = transform.GetChild(1).gameObject;
-        middle = transform.GetChild(2).gameObject;
-        end = transform.GetChild(3).gameObject;
-        header = transform.GetChild(4).gameObject;
-        ender = transform.GetChild(5).gameObject;
+        end = transform.GetChild(2).gameObject;
 
         ifNailed = false;
         ifTouching = false;
@@ -51,6 +48,11 @@ public class Nail : Tools
                     mLine.SetPosition(0, head.transform.position);
                     mLine.SetPosition(1, hit.point);
                 }
+                else
+                {
+                    mLine.SetPosition(0, head.transform.position);
+                    mLine.SetPosition(1, head.transform.position);
+                }
             }
             else      //If hit nothing
             {
@@ -72,7 +74,7 @@ public class Nail : Tools
 
         if (gameObject.GetComponent<Rigidbody>() != null)
         {
-            if (ifFreeze)
+            if (ifFreeze && !ifNailed)
             {
                 gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             }
@@ -93,14 +95,33 @@ public class Nail : Tools
         GetComponent<Rigidbody>().isKinematic = true;
 
         //Check if the head was touching something
-        if (ifTouching == true)
+        if (ifTouching || ifNailed)
         {
+            //Check if contains a fixed joint, then remove it if there is one
+            FixedJoint current = null;
+            Rigidbody connected = null;
+            current = GetComponent<FixedJoint>();
+            if(current != null)
+            {
+                connected = current.connectedBody;
+                Destroy(current);
+            }
+
             float amount = Vector3.Dot(directionHit, forward);
 
             //Move the nail based on direction
-            if(!ifNailed)
+            if (!ifNailed)
+            {
                 ifNailed = true;
+            }
             transform.position += forward * amount;
+
+            //Put fixed joint back if there is one
+            if(connected != null)
+            {
+                gameObject.AddComponent<FixedJoint>();
+                GetComponent<FixedJoint>().connectedBody = connected;
+            }
         }
 
         //Enable the collision
@@ -136,10 +157,6 @@ public class Nail : Tools
                     //Check if start to nail
                     if (ifNailed)
                     {
-                        //Debug
-                        transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-                        //Debug
-
                         //Create a new group if don't have one
                         if (structureGroup == null)
                         {
@@ -159,10 +176,6 @@ public class Nail : Tools
                         }
                         else if(structureGroup)      //If already exist a connected group
                         {
-                            //Debug
-                            currentTarget.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
-                            //Debug
-
                             //Check if the strcuture object already in the connect list
                             bool ifInside = false;
                             foreach(GameObject connect in connected)
