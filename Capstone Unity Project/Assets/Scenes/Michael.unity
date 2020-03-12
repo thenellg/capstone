@@ -3034,26 +3034,6 @@ Rigidbody:
     type: 3}
   m_PrefabInstance: {fileID: 1462949801153455401}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1097969803 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5897820500615398812, guid: f8133480119474448a71709cf62c30d9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1462949801153455401}
-  m_PrefabAsset: {fileID: 0}
---- !u!138 &1097969811
-FixedJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1097969803}
-  m_ConnectedBody: {fileID: 1016065847}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
 --- !u!1001 &1098165378
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8155,36 +8135,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: SG Manager
       objectReference: {fileID: 0}
-    - target: {fileID: 1462949801538026066, guid: f8133480119474448a71709cf62c30d9,
-        type: 3}
-      propertyPath: m_Name
-      value: Stud
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462949801538026066, guid: f8133480119474448a71709cf62c30d9,
-        type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462949800369127569, guid: f8133480119474448a71709cf62c30d9,
-        type: 3}
-      propertyPath: m_Name
-      value: Stud
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462949800369127569, guid: f8133480119474448a71709cf62c30d9,
-        type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462949800925454810, guid: f8133480119474448a71709cf62c30d9,
-        type: 3}
-      propertyPath: m_Name
-      value: Stud
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462949800925454810, guid: f8133480119474448a71709cf62c30d9,
-        type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
     - target: {fileID: 1462949800137800689, guid: f8133480119474448a71709cf62c30d9,
         type: 3}
       propertyPath: m_Name
@@ -8196,6 +8146,36 @@ PrefabInstance:
       value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5897820500615398812, guid: f8133480119474448a71709cf62c30d9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1462949801538026066, guid: f8133480119474448a71709cf62c30d9,
+        type: 3}
+      propertyPath: m_Name
+      value: Stud
+      objectReference: {fileID: 0}
+    - target: {fileID: 1462949801538026066, guid: f8133480119474448a71709cf62c30d9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1462949800369127569, guid: f8133480119474448a71709cf62c30d9,
+        type: 3}
+      propertyPath: m_Name
+      value: Stud
+      objectReference: {fileID: 0}
+    - target: {fileID: 1462949800369127569, guid: f8133480119474448a71709cf62c30d9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1462949800925454810, guid: f8133480119474448a71709cf62c30d9,
+        type: 3}
+      propertyPath: m_Name
+      value: Stud
+      objectReference: {fileID: 0}
+    - target: {fileID: 1462949800925454810, guid: f8133480119474448a71709cf62c30d9,
         type: 3}
       propertyPath: m_Layer
       value: 13

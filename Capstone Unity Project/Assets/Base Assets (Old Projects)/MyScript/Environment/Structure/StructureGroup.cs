@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class StructureGroup : MonoBehaviour
 {
-    private Transform[] childList;
+    private List<Transform> childList;
+    private List<GameObject> nailList;
     public OVRGrabbable grabScript;
     public Collider[] grabPoints;
 
@@ -26,7 +27,10 @@ public class StructureGroup : MonoBehaviour
     void FixedUpdate()
     { 
         //Put all the child into the tracking list
-        childList = GetComponentsInChildren<Transform>();
+        foreach(Transform child in transform)
+        {
+            childList.Add(child);
+        }
 
         //Modify the child
         foreach (Transform child in childList)
@@ -34,7 +38,6 @@ public class StructureGroup : MonoBehaviour
             //Exclude self
             if (!GameObject.ReferenceEquals(child.gameObject, gameObject))
             {
-
                 //Add fixed joint to the child
                 if (child.gameObject.GetComponent<Rigidbody>() != null &&
                     child.gameObject.GetComponent<FixedJoint>() == null)

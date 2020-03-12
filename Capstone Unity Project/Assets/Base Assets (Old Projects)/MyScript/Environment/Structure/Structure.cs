@@ -9,7 +9,7 @@ public class Structure : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        trackingManager = null;
     }
 
     // Update is called once per frame
@@ -21,9 +21,5 @@ public class Structure : MonoBehaviour
     public void setManager(GameObject manager)
     {
         trackingManager = manager;
-
-        //Debug
-        gameObject.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
-        //Debug
     }
 }
