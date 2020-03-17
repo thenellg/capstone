@@ -7,6 +7,7 @@ public class Nail : Tools
     private bool ifNailed;              //If the nail been connected to a structural object
     private bool ifTouching;
     private bool ifFreeze;
+    public bool ifNailing;
     private GameObject head, end;
 
     private GameObject structureGroupPrefab;
@@ -25,8 +26,11 @@ public class Nail : Tools
         ifNailed = false;
         ifTouching = false;
         ifFreeze = false;
+        ifNailing = false;
 
         mLine = GetComponent<LineRenderer>();
+
+        connected = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -88,6 +92,9 @@ public class Nail : Tools
     //Called when a hammer hit nail (call by hammer)
     public void HitByHammer(Vector3 directionHit, GameObject managerPrefab)
     {
+        //Set the flag
+        ifNailing = true;
+
         //Receive the prefab
         structureGroupPrefab = managerPrefab;
 
@@ -95,16 +102,30 @@ public class Nail : Tools
         GetComponent<Rigidbody>().isKinematic = true;
 
         //Check if the head was touching something
-        if (ifTouching || ifNailed)
+        if (ifTouching)
         {
             //Check if contains a fixed joint, then remove it if there is one
             FixedJoint current = null;
-            Rigidbody connected = null;
+            Rigidbody connectedManager = null;
             current = GetComponent<FixedJoint>();
+            bool needAddBack = false;
+
             if(current != null)
             {
-                connected = current.connectedBody;
-                Destroy(current);
+                //Debug
+                Debug.Log("Current joint(current) before nailing: " + current);
+                //Debug
+
+                connectedManager = current.connectedBody;
+
+                //Debug
+                if (connectedManager == null)
+                    Debug.Log("Worning! Connect 0 in function!");
+                //Debug
+
+                Destroy(GetComponent<FixedJoint>());
+
+                needAddBack = true;
             }
 
             float amount = Vector3.Dot(directionHit, forward);
@@ -116,16 +137,37 @@ public class Nail : Tools
             }
             transform.position += forward * amount;
 
-            //Put fixed joint back if there is one
-            if(connected != null)
+            //Debug
+            Debug.Log("Current joint after nailing: " + this.transform.GetComponent<FixedJoint>());
+            //Debug
+
+            //Put fixed joint back if there is one, and not added by structure group
+            if(GetComponent<FixedJoint>() == null && needAddBack)
             {
                 gameObject.AddComponent<FixedJoint>();
-                GetComponent<FixedJoint>().connectedBody = connected;
+                if(structureGroup != null)
+                    GetComponent<FixedJoint>().connectedBody = structureGroup.GetComponent<Rigidbody>();
+                else if(connectedManager != null)
+                    GetComponent<FixedJoint>().connectedBody = connectedManager;
+                else
+                {
+                    //Debug
+                    Debug.Log("Nailing process error, final adding step!");
+                    //Debug
+                }
             }
         }
 
         //Enable the collision
         GetComponent<Rigidbody>().isKinematic = false;
+
+        //Remove the flag
+        ifNailing = false;
+
+        //Debug
+        if (gameObject.GetComponent<FixedJoint>().connectedBody == null)
+            Debug.Log("Worning! Connect 0!");
+        //Debug
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -164,8 +206,25 @@ public class Nail : Tools
                     GameObject currentTarget = contact.otherCollider.gameObject;
                     Structure currentTargetScript = currentTarget.GetComponent<Structure>();
 
+                    //Check if the target already be nailed
+                    bool needNail = true;
+                    foreach(GameObject conect in connected)
+                    {
+                        if (GameObject.ReferenceEquals(conect, currentTarget))
+                        {
+                            needNail = false;
+                            break;
+                        }
+                        else
+                        {
+                            //Debug
+                            currentTarget.GetComponent<Renderer>().material.color = new Color(0, 255, 255);
+                            //Debug
+                        }
+                    }
+
                     //Check if start to nail
-                    if (ifNailed)
+                    if (ifNailed && needNail)
                     {
                         //If nail doesn't belongs to a structure group, and target object also
                         if (structureGroup == null && 
@@ -179,10 +238,15 @@ public class Nail : Tools
                             //Add the nail and target into the same group
                             transform.parent = structureGroup.transform;
                             currentTarget.transform.parent = structureGroup.transform;
+                            structureGroup = null;      //Transfer the task to SG script
 
                             //Put the first structure object into the connected list
                             if(currentTarget != null)
                                 connected.Add(currentTarget);
+
+                            //Debug
+                            Debug.Log("Nailing case 1");
+                            //Debug
                         }
                         //If nail doesn't belongs to group but target does
                         else if(structureGroup == null && 
@@ -197,6 +261,10 @@ public class Nail : Tools
                             //Put the structure object into the connected list
                             if (currentTarget != null)
                                 connected.Add(currentTarget);
+
+                            //Debug
+                            Debug.Log("Nailing case 2");
+                            //Debug
                         }
                         //If already exist a connected group, but target doesn't
                         else if (structureGroup != null && 
@@ -220,6 +288,10 @@ public class Nail : Tools
                                 //Put the target into the connect group
                                 connected.Add(currentTarget);
                             }
+
+                            //Debug
+                            Debug.Log("Nailing case 3");
+                            //Debug
                         }
                         //If connecting two structure group, not same
                         else if (structureGroup != null && 
@@ -245,8 +317,12 @@ public class Nail : Tools
                             //After finish, check if target structure group contains no more object
                             if(targetManager.transform.childCount == 0)
                             {
-                                Destroy(targetManager);
+                                //Destroy(targetManager);
                             }
+
+                            //Debug
+                            Debug.Log("Nailing case 4");
+                            //Debug
                         }
                     }
                 }
