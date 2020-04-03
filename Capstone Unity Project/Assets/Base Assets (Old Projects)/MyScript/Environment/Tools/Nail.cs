@@ -34,7 +34,7 @@ public class Nail : Tools
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!ifTouching && !ifNailed)
         {
@@ -135,7 +135,7 @@ public class Nail : Tools
             {
                 ifNailed = true;
             }
-            transform.position += forward * amount;
+            transform.Translate(forward.normalized * Time.deltaTime, Space.World);
 
             //Debug
             Debug.Log("Current joint after nailing: " + this.transform.GetComponent<FixedJoint>());

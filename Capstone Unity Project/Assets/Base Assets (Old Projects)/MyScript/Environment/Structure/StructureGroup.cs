@@ -20,7 +20,7 @@ public class StructureGroup : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(!grabScript.isActiveAndEnabled && grabPoints.Length != 0)
         {
@@ -28,7 +28,7 @@ public class StructureGroup : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void Update()
     {
         //Debug
         //Debug.Log(transform.childCount);
@@ -131,12 +131,20 @@ public class StructureGroup : MonoBehaviour
                 }
 
                 //Change the layer
-                child.gameObject.layer = LayerMask.NameToLayer("SG Object");
+                //child.gameObject.layer = LayerMask.NameToLayer("SG Object");
             }
         }
 
         //Set the grabble point to all the child collider
         grabPoints = gameObject.GetComponentsInChildren<Collider>();
+
+        //Change the layer to ignore inner collision
+        foreach(Collider currentC in grabPoints)
+        {
+            if (!GameObject.ReferenceEquals(currentC.gameObject, gameObject))
+                currentC.gameObject.layer = LayerMask.NameToLayer("SG Object");
+        }
+
         grabScript.NewGrabPoints(grabPoints);
     }
 }
