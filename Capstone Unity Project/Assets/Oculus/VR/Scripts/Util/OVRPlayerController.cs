@@ -151,6 +151,8 @@ public class OVRPlayerController : MonoBehaviour
 	private bool ReadyToSnapTurn; // Set to true when a snap turn has occurred, code requires one frame of centered thumbstick to enable another snap turn.
 	private bool playerControllerEnabled = false;
 
+    public GameObject Menu;
+
 	void Start()
 	{
 		// Add eye-depth as a camera offset from the player controller
@@ -266,7 +268,12 @@ public class OVRPlayerController : MonoBehaviour
 
 		UpdateMovement();
 
-		Vector3 moveDirection = Vector3.zero;
+        if (OVRInput.Get(OVRInput.Button.One))
+        {
+            Menu.SetActive(true);
+        }
+
+        Vector3 moveDirection = Vector3.zero;
 
 		float motorDamp = (1.0f + (Damping * SimulationRate * Time.deltaTime));
 
