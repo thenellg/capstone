@@ -17,43 +17,118 @@ public class NailHead : NailElement
         
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        foreach (ContactPoint contact in collision.contacts)
+        //Debug
+        //Debug.Log("Triggered nail head!");
+        //Debug
+
+        if(ifNailed)
         {
-            if (contact.otherCollider.gameObject.tag == "Structure")
+            /*****Start to connect structure object*****/
+
+            //Get the target object
+            GameObject currentTarget = other.gameObject;
+            Structure currentTargetScript = currentTarget.GetComponent<Structure>();
+
+            //Debug
+            Debug.Log("=====");
+            Debug.Log("Triggered nail head and nailed!");
+            Debug.Log("Contact object: " + other.gameObject);
+            Debug.Log("Parent connection check: " + parent.ifConnected(currentTarget));
+            //Debug
+
+            //Check if start to nail
+            if (currentTarget.tag == "Structure")
             {
-                //Debug
-                Debug.Log("Nail Head Touching");
-                //Debug
+                if (ifNailed && !parent.ifConnected(currentTarget))
+                {
+                    //Generate a structure group, and give to parent for first time
+                    bool ifParentNeedGroup = false;
+                    if (childStructureGroup == null && structureGroupPrefab)
+                    {
+                        ifParentNeedGroup = true;
+                    }
 
-                //Told the parent the current status
-                //parent.Touching();
+                    //If nail doesn't belongs to a structure group, and target object also
+                    if (currentTargetScript.trackingManager == null)
+                    {
+                        if (childStructureGroup == null)
+                        {   //Generate the structure group manager to handle nailed object
+                            childStructureGroup = Instantiate(structureGroupPrefab);
+                            childStructureGroup.transform.position = parent.transform.position;
+                            childStructureGroup.transform.parent = null;
 
-                /*****Start to connect structure object*****/
+                            //Debug
+                            Debug.Log("=====");
+                            Debug.Log("Parent Set!");
+                            //Debug
+                        }
 
-                //Get the target object
-                GameObject currentTarget = contact.otherCollider.gameObject;
+                        //Connect the target object into the group
+                        currentTarget.transform.parent = childStructureGroup.transform;
 
-                //Debug
-                //currentTarget.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-                //Debug
+                        //Put the first structure object into the connected list
+                        if (currentTarget != null)
+                            parent.addToConnect(currentTarget);
 
-                //Told the parent to nail the target
-                //parent.Nailing(currentTarget);
-            }
-        }
-    }
+                        //Debug
+                        Debug.Log("Nailing case 1");
+                        //Debug
+                    }
+                    //If nail doesn't belongs to group but target does
+                    else if (childStructureGroup == null &&
+                        currentTargetScript.trackingManager != null)
+                    {
+                        //Set the structure group the same as the current target
+                        childStructureGroup = currentTargetScript.trackingManager;
 
-    private void OnCollisionExit(Collision collision)
-    {
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            if (contact.otherCollider.gameObject.tag == "Structure")
-            {
-                //Debug
-                Debug.Log("Head Leave!");
-                //Debug
+                        //Transfer as a child to the structure group
+                        parent.transform.parent = childStructureGroup.transform;
+
+                        //Put the structure object into the connected list
+                        if (currentTarget != null)
+                            parent.addToConnect(currentTarget);
+
+                        //Debug
+                        Debug.Log("Nailing case 2");
+                        //Debug
+                    }
+                    //If connecting two structure group, not same
+                    else if (childStructureGroup != null &&
+                        currentTargetScript.trackingManager != null &&
+                        !GameObject.ReferenceEquals(currentTargetScript.trackingManager, childStructureGroup))
+                    {
+                        //Connect with target object first
+                        if (currentTarget != null)
+                            parent.addToConnect(currentTarget);
+
+                        //Move all the obejct for other manager group to this one
+                        GameObject targetManager = currentTargetScript.trackingManager;
+                        foreach (Transform targetChild in targetManager.transform)
+                        {
+                            //If target contains rigidbody, then that means it's the root, for double check
+                            if (targetChild.GetComponent<Rigidbody>() != null)
+                            {
+                                //Move the target into current manager
+                                targetChild.parent = childStructureGroup.transform;
+                            }
+                        }
+
+                        //After finish, check if target structure group contains no more object
+                        if (targetManager.transform.childCount == 0)
+                        {
+                            Destroy(targetManager);
+                        }
+
+                        //Debug
+                        Debug.Log("Nailing case 3");
+                        //Debug
+                    }
+
+                    if (ifParentNeedGroup)
+                        parent.receiveGroup(childStructureGroup);
+                }
             }
         }
     }

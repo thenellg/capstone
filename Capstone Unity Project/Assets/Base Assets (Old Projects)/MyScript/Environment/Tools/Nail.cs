@@ -8,7 +8,8 @@ public class Nail : Tools
     private bool ifTouching;
     private bool ifFreeze;
     public bool ifNailing;
-    private GameObject head, end;
+    private GameObject head, end;       //The game object for head and end child
+    private NailHead headScript;
 
     private GameObject structureGroupPrefab;
     public GameObject structureGroup;       //The current structure group object
@@ -21,6 +22,15 @@ public class Nail : Tools
     void Start()
     {
         head = transform.GetChild(1).gameObject;
+        if (head != null)
+        {
+            headScript = head.GetComponent<NailHead>();
+            if (headScript != null)
+            {
+                headScript.AssignParent(this);
+            }
+        }
+
         end = transform.GetChild(2).gameObject;
 
         ifNailed = false;
@@ -130,11 +140,13 @@ public class Nail : Tools
 
             float amount = Vector3.Dot(directionHit, forward);
 
-            //Move the nail based on direction
+            //Make the nail to be flagged as nailed
             if (!ifNailed)
             {
                 ifNailed = true;
             }
+
+            //Move the nail based on direction
             transform.Translate(forward.normalized * Time.deltaTime, Space.World);
 
             //Debug
@@ -170,12 +182,6 @@ public class Nail : Tools
         //Debug
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-
-    }
-
-
     /*****
      * There are 4 major situations:
      * 1. Nail no group, target no group
@@ -200,129 +206,16 @@ public class Nail : Tools
                 {
                     ifTouching = true;
 
-                    /*****Start to connect structure object*****/
-
-                    //Get the target object
-                    GameObject currentTarget = contact.otherCollider.gameObject;
-                    Structure currentTargetScript = currentTarget.GetComponent<Structure>();
-
-                    //Check if the target already be nailed
-                    bool needNail = true;
-                    foreach(GameObject conect in connected)
+                    //If nailed, set all child to be trigger and start monitoring
+                    if(ifNailed && structureGroupPrefab)
                     {
-                        if (GameObject.ReferenceEquals(conect, currentTarget))
+                        //Update the child's status
+                        headScript.StartNail(structureGroupPrefab);
+
+                        //Set to be trigger
+                        foreach (Collider childCollider in GetComponentsInChildren<Collider>())
                         {
-                            needNail = false;
-                            break;
-                        }
-                        else
-                        {
-                            //Debug
-                            currentTarget.GetComponent<Renderer>().material.color = new Color(0, 255, 255);
-                            //Debug
-                        }
-                    }
-
-                    //Check if start to nail
-                    if (ifNailed && needNail)
-                    {
-                        //If nail doesn't belongs to a structure group, and target object also
-                        if (structureGroup == null && 
-                            currentTargetScript.trackingManager == null)
-                        {
-                            //Generate the structure group manager to handle nailed object
-                            structureGroup = Instantiate(structureGroupPrefab);
-                            structureGroup.transform.position = transform.position;
-                            structureGroup.transform.parent = null;
-
-                            //Add the nail and target into the same group
-                            transform.parent = structureGroup.transform;
-                            currentTarget.transform.parent = structureGroup.transform;
-                            structureGroup = null;      //Transfer the task to SG script
-
-                            //Put the first structure object into the connected list
-                            if(currentTarget != null)
-                                connected.Add(currentTarget);
-
-                            //Debug
-                            Debug.Log("Nailing case 1");
-                            //Debug
-                        }
-                        //If nail doesn't belongs to group but target does
-                        else if(structureGroup == null && 
-                            currentTargetScript.trackingManager != null)
-                        {
-                            //Set the structure group the same as the current target
-                            structureGroup = currentTargetScript.trackingManager;
-
-                            //Transfer as a child to the structure group
-                            transform.parent = structureGroup.transform;
-
-                            //Put the structure object into the connected list
-                            if (currentTarget != null)
-                                connected.Add(currentTarget);
-
-                            //Debug
-                            Debug.Log("Nailing case 2");
-                            //Debug
-                        }
-                        //If already exist a connected group, but target doesn't
-                        else if (structureGroup != null && 
-                            currentTargetScript.trackingManager == null)
-                        {
-                            //Check if the strcuture object already in the connect list
-                            bool ifInside = false;
-                            foreach(GameObject connect in connected)
-                            {
-                                if(GameObject.ReferenceEquals(currentTarget, connect))
-                                {
-                                    ifInside = true;
-                                    break;
-                                }
-                            }
-                            if(!ifInside)
-                            {
-                                //Add the target into the group
-                                currentTarget.transform.parent = structureGroup.transform;
-
-                                //Put the target into the connect group
-                                connected.Add(currentTarget);
-                            }
-
-                            //Debug
-                            Debug.Log("Nailing case 3");
-                            //Debug
-                        }
-                        //If connecting two structure group, not same
-                        else if (structureGroup != null && 
-                            currentTargetScript.trackingManager != null &&
-                            !GameObject.ReferenceEquals(currentTargetScript.trackingManager, structureGroup))
-                        {
-                            //Connect with target object first
-                            if (currentTarget != null)
-                                connected.Add(currentTarget);
-
-                            //Move all the obejct for other manager group to this one
-                            GameObject targetManager = currentTargetScript.trackingManager;
-                            foreach(Transform targetChild in targetManager.transform)
-                            {
-                                //If target contains rigidbody, then that means it's the root, for double check
-                                if(targetChild.GetComponent<Rigidbody>() != null)
-                                {
-                                    //Move the target into current manager
-                                    targetChild.parent = structureGroup.transform;
-                                }
-                            }
-
-                            //After finish, check if target structure group contains no more object
-                            if(targetManager.transform.childCount == 0)
-                            {
-                                //Destroy(targetManager);
-                            }
-
-                            //Debug
-                            Debug.Log("Nailing case 4");
-                            //Debug
+                            childCollider.isTrigger = true;
                         }
                     }
                 }
@@ -330,9 +223,31 @@ public class Nail : Tools
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    public bool ifConnected(GameObject currentTarget)
     {
+        foreach (GameObject conect in connected)
+        {
+            if (GameObject.ReferenceEquals(conect, currentTarget))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public void receiveGroup(GameObject childSGroup)
+    {
+        transform.parent = childSGroup.transform;
+
+        //Debug
+        Debug.Log("=====");
+        Debug.Log("Nail's parent: " + transform.parent);
+        //Debug
+    }
+
+    public void addToConnect(GameObject targetObject)
+    {
+        connected.Add(targetObject);
     }
 }
 

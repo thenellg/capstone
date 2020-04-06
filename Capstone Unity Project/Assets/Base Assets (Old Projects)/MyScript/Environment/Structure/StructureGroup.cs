@@ -41,7 +41,7 @@ public class StructureGroup : MonoBehaviour
             if (child != null)
             {
                 //Debug
-                //Debug.Log("Child name: " + child.name);
+                Debug.Log("Child name: " + child.name);
                 //Debug
 
                 //Check if child in list already
@@ -52,6 +52,11 @@ public class StructureGroup : MonoBehaviour
                 }
                 else if(child.name == "Nail")
                 {
+                    //Debug
+                    Debug.Log("=====");
+                    Debug.Log("Nailing status: " + child.GetComponent<Nail>().ifNailing);
+                    //Debug
+
                     //If the new nail or not belong to this manager, set target
                     if (!GameObject.ReferenceEquals(child.GetComponent<Nail>().structureGroup, this.gameObject) &&
                         !child.GetComponent<Nail>().ifNailing)

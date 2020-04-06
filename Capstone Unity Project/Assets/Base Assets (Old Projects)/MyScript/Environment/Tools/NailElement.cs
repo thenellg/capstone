@@ -6,11 +6,14 @@ public class NailElement : MonoBehaviour
 {
     protected Nail parent;
     protected bool ifNailed;
+    protected GameObject childStructureGroup;       //The current structure group object
+    protected GameObject structureGroupPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
         parent = null;
+        childStructureGroup = null;
         ifNailed = false;
     }
 
@@ -28,8 +31,9 @@ public class NailElement : MonoBehaviour
         }
     }
 
-    public void StartNail()
+    public void StartNail(GameObject SGPrefab)
     {
         ifNailed = true;
+        structureGroupPrefab = SGPrefab;
     }
 }
