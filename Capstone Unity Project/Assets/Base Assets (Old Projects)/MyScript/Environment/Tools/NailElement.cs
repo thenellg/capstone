@@ -36,4 +36,9 @@ public class NailElement : MonoBehaviour
         ifNailed = true;
         structureGroupPrefab = SGPrefab;
     }
+
+    public void StartNail()
+    {
+        ifNailed = true;
+    }
 }

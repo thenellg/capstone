@@ -15,4 +15,19 @@ public class NailEnd : NailElement
     {
 
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //Check if activated
+        if(ifNailed)
+        {
+            Debug.Log("End touch!" + other.gameObject.name);
+
+            //Check if other collider is the hammer
+            if(other.gameObject.name == "HeadHead")
+            {
+                parent.hammerHitFunc();
+            }
+        }
+    }
 }
