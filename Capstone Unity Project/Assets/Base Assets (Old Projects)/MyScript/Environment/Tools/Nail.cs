@@ -7,11 +7,14 @@ public class Nail : Tools
     private bool ifNailed;              //If the nail been connected to a structural object
     private bool ifTouching;
     private bool ifFreeze;
-    private GameObject head, middle, end, header, ender;
+    public bool ifNailing;
+    private GameObject head, end;       //The game object for head and end child
+    private NailHead headScript;
+    private NailEnd endScript;
 
     private GameObject structureGroupPrefab;
-    private GameObject structureGroup;      //The list of connected object
-    public List<GameObject> connected;
+    public GameObject structureGroup;       //The current structure group object
+    public List<GameObject> connected;      //The list of connected object
 
     private LineRenderer mLine;
     private Vector3 forward;
@@ -19,24 +22,43 @@ public class Nail : Tools
     // Start is called before the first frame update
     void Start()
     {
+        //Get the access to head and end and get their script
         head = transform.GetChild(1).gameObject;
-        middle = transform.GetChild(2).gameObject;
-        end = transform.GetChild(3).gameObject;
-        header = transform.GetChild(4).gameObject;
-        ender = transform.GetChild(5).gameObject;
+        if (head != null)
+        {
+            headScript = head.GetComponent<NailHead>();
+            if (headScript != null)
+            {
+                headScript.AssignParent(this);
+            }
+        }
+
+        end = transform.GetChild(2).gameObject;
+        if (end != null)
+        {
+            endScript = end.GetComponent<NailEnd>();
+            if (endScript != null)
+            {
+                endScript.AssignParent(this);
+            }
+        }
 
         ifNailed = false;
         ifTouching = false;
         ifFreeze = false;
+        ifNailing = false;
 
         mLine = GetComponent<LineRenderer>();
+
+        connected = new List<GameObject>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!ifTouching && !ifNailed)
-        {//Update the forward vector
+        {
+            //Update the forward vector
             forward = head.transform.position - end.transform.position;
             Vector3.Normalize(forward);
 
@@ -50,12 +72,22 @@ public class Nail : Tools
                     mLine.SetPosition(0, head.transform.position);
                     mLine.SetPosition(1, hit.point);
                 }
+                else
+                {
+                    mLine.SetPosition(0, head.transform.position);
+                    mLine.SetPosition(1, head.transform.position);
+                }
             }
             else      //If hit nothing
             {
                 mLine.SetPosition(0, head.transform.position);
                 mLine.SetPosition(1, head.transform.position);
             }
+        }
+        else if (!ifTouching)
+        {
+            mLine.SetPosition(0, head.transform.position);
+            mLine.SetPosition(1, head.transform.position);
         }
 
         //If the user enter X now, freez the nail
@@ -66,7 +98,7 @@ public class Nail : Tools
 
         if (gameObject.GetComponent<Rigidbody>() != null)
         {
-            if (ifFreeze)
+            if (ifFreeze && !ifNailed)
             {
                 gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             }
@@ -75,47 +107,107 @@ public class Nail : Tools
                 gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             }
         }
+
+        //Update the parent
+        if(structureGroup)
+            transform.parent = structureGroup.transform;
     }
 
-    //Called when a hammer hit nail (call by hammer)
-    public void HitByHammer(Vector3 directionHit, GameObject managerPrefab)
-    {
-        //Debug
-        //transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 0, 255);
-        //Debug
 
-        //Receive the prefab
-        structureGroupPrefab = managerPrefab;
+    public void hammerHitFunc()
+    {
+        //Set the flag
+        ifNailing = true;
 
         //Disable the collision
         GetComponent<Rigidbody>().isKinematic = true;
 
         //Check if the head was touching something
-        if (ifTouching == true)
+        if (ifTouching || ifNailed)
         {
-            //Debug
-            //transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 0, 255);
-            //Debug
+            //Check if contains a fixed joint, then remove it if there is one
+            FixedJoint current = null;
+            Rigidbody connectedManager = null;
+            current = GetComponent<FixedJoint>();
+            bool needAddBack = false;
 
-            float amount = Vector3.Dot(directionHit, forward);
+            if (current != null)
+            {
+                //Debug
+                Debug.Log("Current joint(current) before nailing: " + current);
+                //Debug
+
+                connectedManager = current.connectedBody;
+
+                //Debug
+                if (connectedManager == null)
+                    Debug.Log("Worning! Connect 0 in function!");
+                //Debug
+
+                Destroy(GetComponent<FixedJoint>());
+
+                needAddBack = true;
+            }
+
+            //Make the nail to be flagged as nailed
+            if (!ifNailed)
+            {
+                ifNailed = true;
+            }
 
             //Move the nail based on direction
-            if(!ifNailed)
-                ifNailed = true;
-            transform.position += forward * amount;
+            transform.Translate(forward.normalized * Time.deltaTime, Space.World);
+
+            //Debug
+            //Debug.Log("Current joint after nailing: " + this.transform.GetComponent<FixedJoint>());
+            //Debug
+
+            //Put fixed joint back if there is one, and not added by structure group
+            if (GetComponent<FixedJoint>() == null && needAddBack)
+            {
+                gameObject.AddComponent<FixedJoint>();
+                if (structureGroup != null)
+                    GetComponent<FixedJoint>().connectedBody = structureGroup.GetComponent<Rigidbody>();
+                else if (connectedManager != null)
+                    GetComponent<FixedJoint>().connectedBody = connectedManager;
+                else
+                {
+                    //Debug
+                    //Debug.Log("Nailing process error, final adding step!");
+                    //Debug
+                }
+            }
         }
 
         //Enable the collision
         GetComponent<Rigidbody>().isKinematic = false;
+
+        //Remove the flag
+        ifNailing = false;
+
+        //Debug
+        if (gameObject.GetComponent<FixedJoint>().connectedBody == null)
+            Debug.Log("Worning! Connect 0!");
+        //Debug
     }
 
-    private void OnCollisionEnter(Collision collision)
+    //Called when a hammer hit nail (call by hammer)
+    public void HitByHammer(Vector3 directionHit, GameObject managerPrefab)
     {
-        //Debug
-        //Debug.Log("Nail Collision Enter");
-        //Debug
+        //Receive the prefab
+        structureGroupPrefab = managerPrefab;
+
+        hammerHitFunc();
     }
 
+    /*****
+     * There are 4 major situations:
+     * 1. Nail no group, target no group
+     * 2. Nail have group, target no group
+     * 3. Nail no group, target have group
+     * 4. Nail have group, target have group, and they aren't same
+     * 5. Nail have group, target have group, they are same
+     ******/
     private void OnCollisionStay(Collision collision)
     {
         //Debug
@@ -127,88 +219,22 @@ public class Nail : Tools
             //Check if the head is colliding with an structural object
             if(contact.thisCollider.gameObject.name == "Head")
             {
-                //Debug
-                //transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 255, 0);
-                //Debug.Log(contact.otherCollider.gameObject.tag);
-                //Debug
 
                 if (contact.otherCollider.gameObject.tag == "Structure")
                 {
                     ifTouching = true;
 
-                    //Debug
-                    //transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-                    //Debug
-
-                    /*****Start to connect structure object*****/
-
-                    //Get the target object
-                    GameObject currentTarget = contact.otherCollider.gameObject;
-
-                    //Debug
-                    currentTarget.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-                    //Debug
-
-                    //Check if start to nail
-                    if (ifNailed)
+                    //If nailed, set all child to be trigger and start monitoring
+                    if(ifNailed && structureGroupPrefab)
                     {
-                        //Debug
-                        transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-                        //Debug
+                        //Update the child's status
+                        headScript.StartNail(structureGroupPrefab);
+                        endScript.StartNail();
 
-                        //Create a new group if don't have one
-                        if (structureGroup == null)
+                        //Set to be trigger
+                        foreach (Collider childCollider in GetComponentsInChildren<Collider>())
                         {
-                            //Generate the structure group manager to handle nailed object
-                            structureGroup = GameObject.Instantiate(structureGroupPrefab);
-                            structureGroup.transform.position = transform.position;
-                            structureGroup.transform.parent = null;
-
-                            //Debug
-                            Debug.Log("SG Created");
-                            //Debug
-
-                            //Debug
-                            currentTarget.GetComponent<Renderer>().material.color = new Color(0, 255, 0);
-                            //Debug
-
-                            //Add the nail and target into the same group
-                            transform.parent = structureGroup.transform;
-                            currentTarget.transform.parent = structureGroup.transform;
-
-                            //Put the first structure object into the connected list
-
-                            if(currentTarget != null)
-                                connected.Add(currentTarget);
-                        }
-                        else if(structureGroup)      //If already exist a connected group
-                        {
-                            //Debug
-                            currentTarget.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
-                            //Debug
-
-                            //Check if the strcuture object already in the connect list
-                            bool ifInside = false;
-                            foreach(GameObject connect in connected)
-                            {
-                                if(GameObject.ReferenceEquals(currentTarget, connect))
-                                {
-                                    ifInside = true;
-                                    break;
-                                }
-                            }
-                            if(!ifInside)
-                            {
-                                //Debug
-                                Debug.Log("Nail Adding Object");
-                                //Debug
-
-                                //Add the target into the group
-                                currentTarget.transform.parent = structureGroup.transform;
-
-                                //Put the target into the connect group
-                                connected.Add(currentTarget);
-                            }
+                            childCollider.isTrigger = true;
                         }
                     }
                 }
@@ -216,11 +242,31 @@ public class Nail : Tools
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    public bool ifConnected(GameObject currentTarget)
     {
+        foreach (GameObject conect in connected)
+        {
+            if (GameObject.ReferenceEquals(conect, currentTarget))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void receiveGroup(GameObject childSGroup)
+    {
+        transform.parent = childSGroup.transform;
+
         //Debug
-        //Debug.Log("Head Leave!");
+        Debug.Log("=====");
+        Debug.Log("Nail's parent: " + transform.parent);
         //Debug
+    }
+
+    public void addToConnect(GameObject targetObject)
+    {
+        connected.Add(targetObject);
     }
 }
 

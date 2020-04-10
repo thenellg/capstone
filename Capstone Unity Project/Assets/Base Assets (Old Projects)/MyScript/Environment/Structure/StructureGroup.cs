@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class StructureGroup : MonoBehaviour
 {
-    private Transform[] childList;
+    public List<Transform> childList;
+    public List<GameObject> nailList;
     public OVRGrabbable grabScript;
     public Collider[] grabPoints;
 
@@ -12,10 +13,14 @@ public class StructureGroup : MonoBehaviour
     void Start()
     {
         grabScript = gameObject.GetComponent<OVRGrabbable>();
+
+        childList = new List<Transform>();
+
+        nailList = new List<GameObject>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(!grabScript.isActiveAndEnabled && grabPoints.Length != 0)
         {
@@ -23,12 +28,80 @@ public class StructureGroup : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        //Debug.Log("LateUpdate executed!");
+        //Debug
+        //Debug.Log(transform.childCount);
+        //Debug
 
         //Put all the child into the tracking list
-        childList = GetComponentsInChildren<Transform>();
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Transform child = transform.GetChild(i);
+            if (child != null)
+            {
+                //Debug
+                Debug.Log("Child name: " + child.name);
+                //Debug
+
+                //Check if child in list already
+                if(child.tag == "Structure")
+                {
+                    if(child.GetComponent<Structure>().trackingManager != this.gameObject)
+                        childList.Add(child);
+                }
+                else if(child.name == "Nail")
+                {
+                    //Debug
+                    Debug.Log("=====");
+                    Debug.Log("Nailing status: " + child.GetComponent<Nail>().ifNailing);
+                    //Debug
+
+                    //If the new nail or not belong to this manager, set target
+                    if (!GameObject.ReferenceEquals(child.GetComponent<Nail>().structureGroup, this.gameObject) &&
+                        !child.GetComponent<Nail>().ifNailing)
+                    {
+                        childList.Add(child);
+                        child.GetComponent<Nail>().structureGroup = this.gameObject;
+
+                        //Check if contains fixed joint
+                        FixedJoint childJoint = child.GetComponent<FixedJoint>();
+
+                        //Debug
+                        Debug.Log("Child nail joint: " + childJoint);
+                        //Debug
+
+                        if(childJoint != null)
+                        {
+                            //Debug
+                            Debug.Log("Nail child have joint!");
+                            //Debug
+
+                            //Check if connected to this object
+                            if(!GameObject.ReferenceEquals(childJoint.connectedBody.gameObject, this.gameObject))
+                            {
+                                childJoint.connectedBody = gameObject.GetComponent<Rigidbody>();
+                            }
+                        }
+                        else
+                        {
+                            //Debug
+                            Debug.Log("Nail child no joint!");
+                            //Debug
+
+                            child.gameObject.AddComponent<FixedJoint>();
+                            child.gameObject.GetComponent<FixedJoint>().connectedBody = GetComponent<Rigidbody>();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //Debug
+                //Debug.Log("Empty SG!");
+                //Debug
+            }
+        }
 
         //Modify the child
         foreach (Transform child in childList)
@@ -37,12 +110,12 @@ public class StructureGroup : MonoBehaviour
             if (!GameObject.ReferenceEquals(child.gameObject, gameObject))
             {
                 //Debug
-                child.GetComponent<Renderer>().material.color = new Color(0, 0, 255);
+                //child.gameObject.GetComponent<Renderer>().material.color = new Color(0, 255, 255);
                 //Debug
 
                 //Add fixed joint to the child
-                if (child.gameObject.GetComponent<Rigidbody>() != null &&
-                    child.gameObject.GetComponent<FixedJoint>() == null)
+                if ((child.gameObject.GetComponent<Rigidbody>() != null &&
+                    child.gameObject.GetComponent<FixedJoint>() == null))
                 {
                     child.gameObject.AddComponent<FixedJoint>();
                     child.gameObject.GetComponent<FixedJoint>().connectedBody = GetComponent<Rigidbody>();
@@ -63,12 +136,20 @@ public class StructureGroup : MonoBehaviour
                 }
 
                 //Change the layer
-                child.gameObject.layer = LayerMask.NameToLayer("SG Object");
+                //child.gameObject.layer = LayerMask.NameToLayer("SG Object");
             }
         }
 
         //Set the grabble point to all the child collider
         grabPoints = gameObject.GetComponentsInChildren<Collider>();
+
+        //Change the layer to ignore inner collision
+        foreach(Collider currentC in grabPoints)
+        {
+            if (!GameObject.ReferenceEquals(currentC.gameObject, gameObject))
+                currentC.gameObject.layer = LayerMask.NameToLayer("SG Object");
+        }
+
         grabScript.NewGrabPoints(grabPoints);
     }
 }

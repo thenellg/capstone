@@ -53,8 +53,9 @@ public class ChalkLine : Tools
 
                 //Return the hangPoint
                 hangPoint.transform.position = resetPos.transform.position;
-                hangPoint.transform.rotation = resetObj.transform.rotation;
+                hangPoint.transform.rotation = resetPos.transform.rotation;
                 hangPoint.transform.parent = transform;
+                hangPoint.transform.localScale = new Vector3(1, 1, 1);
 
                 //Reset the flag
                 ifConnect = false;
@@ -89,11 +90,12 @@ public class ChalkLine : Tools
                 //If not connect to any of the object, then attach the hang point on the object
                 if (!ifConnect && currentTouching != null)
                 {
-                    //Lock the point
-                    hangPoint.transform.position = hangPosition;
-
                     //Release the hang point, set parent to the touching object
                     hangPoint.transform.parent = currentTouching.transform;
+
+                    //Lock the point
+                    hangPoint.transform.position = hangPosition;
+                    hangPoint.transform.localScale = new Vector3(1, 1, 1);
 
                     //Update the status
                     ifConnect = true;
@@ -119,7 +121,7 @@ public class ChalkLine : Tools
 
                     //Update the status
                     ifFlick = true;
-                }  
+                }
             }
         }
     }

@@ -7,17 +7,18 @@ public class LineTrace : MonoBehaviour
 {
     private GameObject parent;
     private LineRenderer line;
-    private bool ifStored;
-    private List<Vector3> localPos;
+    private int numCheck;
+    private List<GameObject> trackList;
+
+    public GameObject checkObjPre;
 
     // Start is called before the first frame update
     void Start()
     {
         parent = null;
         line = null;
-        ifStored = false;
 
-        localPos = new List<Vector3>();
+        numCheck = 0;
     }
 
     // Update is called once per frame
@@ -30,30 +31,35 @@ public class LineTrace : MonoBehaviour
         }
 
         if(parent != null)
-        { 
+        {
             //Try to get the line
             if(line == null)
             {
                 line = gameObject.GetComponent<LineRenderer>();
             }
-
-            //Try to store all the point
-            if(line.positionCount > localPos.Count)
+            else
             {
-                //Copy the new element into the List
-                for(int i = localPos.Count; i < line.positionCount; i++)
+                //Get total position
+                int totalCheck = line.positionCount;
+                for(int i = numCheck; i < totalCheck; i++)
                 {
-                    localPos.Add(line.GetPosition(i));
-                }
-            }
+                    //Generate track prefab
+                    GameObject curObj = Instantiate(checkObjPre);
 
-            //Modify all the line position
-            for(int i = 0; i < line.positionCount; i++)
-            {
-                if (localPos.Count == line.positionCount)
-                    line.SetPosition(i, localPos[i] + parent.transform.position);
-                else
-                    Debug.Log("Error! Stored position is not equal with line position!");
+                    //Set orientation
+                    curObj.transform.position = line.GetPosition(i);
+                    curObj.transform.localScale = new Vector3(0.005f, 0.005f, 0.005f);
+                    curObj.transform.parent = transform.parent;
+                    trackList.Add(curObj);
+
+                    numCheck++;
+                }
+
+                //Update all the position
+                for(int i = 0; i < totalCheck; i++)
+                {
+                    line.SetPosition(i, trackList[i].transform.position);
+                }
             }
         }
     }

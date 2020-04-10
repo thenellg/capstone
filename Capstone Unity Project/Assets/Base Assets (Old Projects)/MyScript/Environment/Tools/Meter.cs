@@ -44,8 +44,9 @@ public class Meter : Tools
             {
                 //Return the hangPoint
                 hangPoint.transform.position = resetPos.transform.position;
-                hangPoint.transform.rotation = resetObj.transform.rotation;
+                hangPoint.transform.rotation = resetPos.transform.rotation;
                 hangPoint.transform.parent = transform;
+                hangPoint.transform.localScale = new Vector3(1, 1, 1);
 
                 //Reset the flag
                 ifConnect = false;
@@ -90,16 +91,18 @@ public class Meter : Tools
         if(ifHold)
         {
             //Check if the player trigger the button
-            if(OVRInput.Get(OVRInput.RawButton.X) || OVRInput.Get(OVRInput.RawButton.A))
+            if(OVRInput.Get(OVRInput.RawButton.X))
             {
                 //If not connect to any of the object, then attach the hang point on the object
                 if (!ifConnect && currentTouching != null)
                 {
-                    //Lock the point
-                    hangPoint.transform.position = hangPosition;
-
                     //Release the hang point, set parent to the touching object
                     hangPoint.transform.parent = currentTouching.transform;
+
+                    //Lock the point
+                    hangPoint.transform.position = hangPosition;
+                    hangPoint.transform.localScale = new Vector3(1, 1, 1);
+
 
                     //Update the status
                     ifConnect = true;

@@ -23,25 +23,9 @@ public class CirSaw : Tools
         //Check if being used by user
         if(ifHold)
         {
-            //Debug
-            //Renderer[] debugRender = gameObject.GetComponentsInChildren<Renderer>();
-            //foreach (Renderer target in debugRender)
-            {
-                //target.material.color = new Color(0, 255, 255);
-            }
-            //Debug
-
             //If the player hit A on the right controller
-            if (OVRInput.Get(OVRInput.Button.One))
+            if (OVRInput.GetDown(OVRInput.RawButton.A))
             {
-                //Debug
-                //Renderer[] ddebugRender = gameObject.GetComponentsInChildren<Renderer>();
-                //foreach (Renderer target in ddebugRender)
-                {
-                    //target.material.color = new Color(255, 255, 255);
-                }
-                //Debug
-
                 //Get the target object when hit button
                 targetObject = currentObject;
 
@@ -55,25 +39,11 @@ public class CirSaw : Tools
         //Find the only one target structural object
         foreach(ContactPoint contact in collision.contacts)
         {
-            //Debug
-            //contact.otherCollider.gameObject.GetComponent<Renderer>().material.color = new Color(0, 255, 255);
-            //Debug
-
             GameObject temp = FindStructureParent(contact.otherCollider.gameObject);
-
-            //Debug
-            //temp.GetComponent<Renderer>().material.color = new Color(0, 255, 255);
-            //Debug
 
             if (temp != null)
                 currentObject = temp;
         }
-
-        //Debug
-        //currentObject.GetComponent<Renderer>().material.color = new Color(0, 255, 255);
-        //targetObject = currentObject;
-        //CutObject();
-        //Debug
     }
 
     private void CutObject()

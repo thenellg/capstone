@@ -25,7 +25,7 @@ public class Hammer : Tools
     //Update the physics effect
     private void FixedUpdate()
     {
-        
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -36,16 +36,9 @@ public class Hammer : Tools
             //If the hammer hit something with its head
             if(contact.thisCollider.gameObject.name == "HeadHead")
             {
-                //Debug
-                //Debug.Log(contact.otherCollider.transform.parent.gameObject.name);
-                //transform.gameObject.GetComponent<Renderer>().material.color = new Color(255, 255, 0);
-                //Debug
-
                 //Check if hit the nail
                 if (contact.otherCollider.gameObject.transform.parent.gameObject.name == "Nail")
                 {
-                    Debug.Log("Hammer Hit");
-
                     //Get the game object
                     GameObject nail = contact.otherCollider.transform.parent.gameObject;
 
@@ -54,11 +47,15 @@ public class Hammer : Tools
                         transform.GetChild(2).transform.position;
 
                     nail.GetComponent<Nail>().HitByHammer(directionHit, managerPrefab);
+                }
+                //Otherwise check if hit a structure group
+                if(contact.otherCollider.tag == "SG Manager")
+                {
+                    //Debug
+                    Debug.Log("Hit Manager");
+                    //Debug
 
-                    //Debug
-                    //Debug.Log("Leave!");
-                    transform.gameObject.GetComponent<Renderer>().material.color = new Color(0, 255, 255);
-                    //Debug
+                    //Try to ask if hit the nail
                 }
             }
         }

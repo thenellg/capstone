@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1462949799799639010}
   m_Layer: 0
   m_Name: Structure Group 1
-  m_TagString: Untagged
+  m_TagString: SG Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61,6 +61,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75bbe9b324ebf774dbb69f3eff913621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  childList: []
+  nailList: []
   grabScript: {fileID: 0}
   grabPoints: []
 --- !u!114 &1462949799799639010
