@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class NailElement : MonoBehaviour
 {
-    protected Nail parent;
-    protected bool ifNailed;
-    protected GameObject childStructureGroup;       //The current structure group object
-    protected GameObject structureGroupPrefab;
+    protected   Nail parent;
+    protected   bool ifNailed;
+    public      GameObject childStructureGroup;       //The current structure group object
+    public      GameObject structureGroupPrefab;
 
     // Start is called before the first frame update
     void Start()

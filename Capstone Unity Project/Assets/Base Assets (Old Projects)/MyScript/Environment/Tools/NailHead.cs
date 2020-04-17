@@ -105,13 +105,39 @@ public class NailHead : NailElement
 
                         //Move all the obejct for other manager group to this one
                         GameObject targetManager = currentTargetScript.trackingManager;
-                        foreach (Transform targetChild in targetManager.transform)
+
+                        //Count how many child need to be transfered
+                        int targetChildNum = 0;
+                        targetChildNum = targetManager.transform.childCount;
+
+                        for(int i = 0; i < targetChildNum; i++)
                         {
-                            //If target contains rigidbody, then that means it's the root, for double check
+                            Transform targetChild = targetManager.transform.GetChild(i).transform;
+
+                            //If target contains rigidbody, then that means it's the root.
+                            //This step is in case the script accidentially get the child's child
                             if (targetChild.GetComponent<Rigidbody>() != null)
                             {
+                                //Move the fixed joint if there is one
+                                if(targetChild.GetComponent<FixedJoint>())
+                                {
+                                    targetChild.GetComponent<FixedJoint>().connectedBody = childStructureGroup.GetComponent<Rigidbody>();
+                                }
+
                                 //Move the target into current manager
                                 targetChild.parent = childStructureGroup.transform;
+
+                                //Set the new child's structure group pointer to the current manager
+                                if(targetChild.tag == "Strcuture")
+                                {
+                                    targetChild.GetComponent<Structure>().trackingManager = childStructureGroup;
+                                }
+                                else if(targetChild.name == "Nail")
+                                {
+                                    targetChild.GetComponent<Nail>().structureGroup = childStructureGroup;
+                                    targetChild.GetChild(1).GetComponent<NailHead>().childStructureGroup = this.childStructureGroup;
+                                    targetChild.GetChild(2).GetComponent<NailEnd>().childStructureGroup = this.childStructureGroup;
+                                }
                             }
                         }
 
