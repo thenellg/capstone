@@ -16,15 +16,24 @@ process, which could be useful for both the teaching or training purposes.
 ### Unity Version
 ***Unity 2019.2.8f1***
 
+### Examples of our project
+- Beta Build: https://www.youtube.com/watch?v=zltDVEnEyQc&t=5s
+
+### How to Run
+1. Install Unity version 2019.2.8f1
+2. Plug in Oculus Headset (We have been building on a quest)
+3. Select the "Build settings" option from file and make sure that the Platform is Unity and the Run Device is the Oculus Headset
+4. Select "Build and Run" and run the project.
+
 ### Group Memebers
 - Griffin Thenell
 - Shiyao (Michael) Wang
 
 ### Official Deadlines
 - [X] Alpha Build (Week 6: **2.14.2020**)
-- [ ] Beta Build  (Week 10: **3.17.2020**)
+- [X] Beta Build  (Week 10: **3.17.2020**)
 - [ ] Code Freeze (Spring Term)
-- [ ] Engineering Expo (**5.15.2020**)
+- [ ] Virtual Expo
 
 ### Helpful Resources
 - Valem - https://www.youtube.com/channel/UCPJlesN59MzHPPCp0Lg8sLw
