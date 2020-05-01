@@ -4,8 +4,18 @@ using UnityEngine;
 
 public class StructureGroup : MonoBehaviour
 {
+    public bool ifActive;
+
     public List<Transform> childList;
     public List<GameObject> nailList;
+
+    //Debug
+    public List<GameObject> targetList;
+    public bool ifNeedUpdate;
+    //Debug
+
+    public GameObject structureGroupPrefab;
+
     public OVRGrabbable grabScript;
     public Collider[] grabPoints;
 
@@ -13,16 +23,27 @@ public class StructureGroup : MonoBehaviour
     void Start()
     {
         grabScript = gameObject.GetComponent<OVRGrabbable>();
+        grabScript.enabled = false;
 
         childList = new List<Transform>();
 
         nailList = new List<GameObject>();
+
+        //Debug
+        ifNeedUpdate = false;
+        targetList = new List<GameObject>();
+        //Debug
+
+        ifActive = true;
+
+        //Give new name
+        gameObject.name = "Structure Group " + Random.Range(0, 9999).ToString();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(!grabScript.isActiveAndEnabled && grabPoints.Length != 0)
+        if(!grabScript.enabled && grabPoints.Length != 0)
         {
             grabScript.enabled = true;
         }
@@ -30,126 +51,315 @@ public class StructureGroup : MonoBehaviour
 
     void Update()
     {
-        //Debug
-        //Debug.Log(transform.childCount);
-        //Debug
-
-        //Put all the child into the tracking list
-        for (int i = 0; i < transform.childCount; i++)
+        if (ifActive)
         {
-            Transform child = transform.GetChild(i);
-            if (child != null)
+            //Debug
+            Debug.Log("Structure Group " + gameObject.name + " Child Count: " +  transform.childCount);
+            //Debug
+
+            //Put all the child into the tracking list
+            for (int i = 0; i < transform.childCount; i++)
             {
-                //Debug
-                Debug.Log("Child name: " + child.name);
-                //Debug
+                Transform child = transform.GetChild(i);
 
-                //Check if child in list already
-                if(child.tag == "Structure")
+                //Check if child still exist
+                if(child == null)
                 {
-                    if(child.GetComponent<Structure>().trackingManager != this.gameObject)
-                        childList.Add(child);
+                    //Debug
+                    Debug.Log("Structure Group: Delete null child");
+                    //Debug
+
+                    Destroy(transform.GetChild(i).gameObject);
                 }
-                else if(child.name == "Nail")
+
+                //Set the iterator for each child
+                if(child.name == "Nail")
                 {
-                    //Debug
-                    Debug.Log("=====");
-                    Debug.Log("Nailing status: " + child.GetComponent<Nail>().ifNailing);
-                    //Debug
+                    child.gameObject.GetComponent<Nail>().iterated = false;
+                }
+                else if(child.tag == "Structure")
+                {
+                    child.gameObject.GetComponent<Structure>().iterated = false;
+                }
 
-                    //If the new nail or not belong to this manager, set target
-                    if (!GameObject.ReferenceEquals(child.GetComponent<Nail>().structureGroup, this.gameObject) &&
-                        !child.GetComponent<Nail>().ifNailing)
+                if (child != null)
+                {
+                    //Check if already in the child list
+                    bool needAdd = true;
+                    for(int j = 0; j < childList.Count; j++)
                     {
-                        childList.Add(child);
-                        child.GetComponent<Nail>().structureGroup = this.gameObject;
-
-                        //Check if contains fixed joint
-                        FixedJoint childJoint = child.GetComponent<FixedJoint>();
-
-                        //Debug
-                        Debug.Log("Child nail joint: " + childJoint);
-                        //Debug
-
-                        if(childJoint != null)
+                        if (childList[j] != null)
                         {
-                            //Debug
-                            Debug.Log("Nail child have joint!");
-                            //Debug
-
-                            //Check if connected to this object
-                            if(!GameObject.ReferenceEquals(childJoint.connectedBody.gameObject, this.gameObject))
-                            {
-                                childJoint.connectedBody = gameObject.GetComponent<Rigidbody>();
-                            }
+                            if (ReferenceEquals(childList[j].gameObject, child.gameObject))
+                                needAdd = false;
                         }
                         else
                         {
+                            //Remove from the child list if the target is not exist anymore
+                            childList.RemoveAt(j);
+                        }
+                    }
+
+                    if (needAdd)
+                        AddChild(child);
+                }
+            }
+
+            //Set the grabble point to all the child collider
+            grabPoints = gameObject.GetComponentsInChildren<Collider>();
+
+            //Enable grab pointer for OVR Grababl
+            grabScript.NewGrabPoints(grabPoints);
+
+            //Update the structure if needed
+            if (ifNeedUpdate)
+            {
+                UpdateStructure();
+                ifNeedUpdate = false;
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (ifActive)
+        {
+            foreach (ContactPoint contact in collision.contacts)
+            {
+                if (contact.thisCollider.name == "Head")
+                {
+                    //Debug
+                    Debug.Log("Structure Group Target Collider: " + contact.otherCollider.name);
+                    Debug.Log("Structure Group This Collider: " + contact.thisCollider.name);
+                    //Debug
+
+                    if (contact.otherCollider.tag == "Structure")
+                    {
+                        GameObject thisNail = contact.thisCollider.transform.parent.gameObject;
+                        Nail thisScript = thisNail.GetComponent<Nail>();
+                        GameObject otherStructure = contact.otherCollider.gameObject;
+                        Structure otherScript = otherStructure.GetComponent<Structure>();
+
+                        //Check if target structure is single or not
+                        if (!otherScript.trackingManager)
+                        {
+                            //If target structure is single, add into structure group
                             //Debug
-                            Debug.Log("Nail child no joint!");
+                            Debug.Log("Structure Group add new structure: " + otherStructure);
                             //Debug
 
-                            child.gameObject.AddComponent<FixedJoint>();
-                            child.gameObject.GetComponent<FixedJoint>().connectedBody = GetComponent<Rigidbody>();
+                            //Try to remove rigid body
+                            if (otherStructure.GetComponent<Rigidbody>())
+                            {
+                                Destroy(otherStructure.GetComponent<Rigidbody>());
+                            }
+
+                            //Try to remove the grabbale
+                            if (otherStructure.GetComponent<OVRGrabbable>())
+                            {
+                                Destroy(otherStructure.GetComponent<OVRGrabbable>());
+                            }
+
+                            //Add as child and start tracking
+                            otherStructure.transform.parent = transform;
+                            //AddChild(otherStructure.transform);
+
+                            //Update the target structure
+                            otherScript.trackingManager = gameObject;
+
+                            //Connect nail and structure
+                            thisNail.GetComponent<Nail>().addToConnect(otherStructure);
+                            otherScript.AddConnect(thisNail);
                         }
+                        else
+                        {
+                            //Get the target manager
+                            GameObject targetManager = otherScript.trackingManager;
+
+                            //Disable the target tracking manager
+                            targetManager.GetComponent<StructureGroup>().ifActive = false;
+
+                            //Debug
+                            Debug.Log("SG Trans: from " + targetManager.name + " to " + gameObject.name);
+                            Debug.Log("SG Trans: target child num is: " + targetManager.transform.childCount);
+                            //Debug
+
+                            //Transfer all the child to this manager
+                            //Use the while loop here in order to correct tracking the child number
+                            //The old version with for loop will make the counter change as child moved
+                            while(targetManager.transform.childCount > 0)
+                            {
+                                //Get child
+                                GameObject currentObject = targetManager.transform.GetChild(0).gameObject;
+
+                                //Debug
+                                //targetList.Add(currentObject);
+                                //continue;
+                                //Debug.Log("SG Trans: Total child: " + targetManager.transform.childCount);
+                                //Debug.Log("SG Trans: target " + i + " child is");
+                                //Debug.Log(currentObject.name);
+                                //Debug
+
+                                //Start to tracking the child
+                                //AddChild(currentObject.transform);
+
+                                //Debug
+                                //currentObject.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
+                                //Debug
+
+                                //Check if stud or nail
+                                if (currentObject.tag == "Tools")
+                                {
+                                    //Debug
+                                    Debug.Log("SG Trans: Find Tool '" + currentObject.name + "' in " + targetManager.name);
+                                    //Debug
+
+                                    //Set manager
+                                    Nail currentScript = currentObject.GetComponent<Nail>();
+                                    currentScript.structureGroup = this.gameObject;
+                                }
+                                else if (currentObject.tag == "Structure")
+                                {
+                                    //Set manager
+                                    Structure currentScript = currentObject.GetComponent<Structure>();
+                                    currentScript.trackingManager = this.gameObject;
+                                }
+
+                                //Transfer child
+                                currentObject.transform.parent = transform;
+                            }
+
+                            //Debug
+                            //thisNail.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
+                            //otherStructure.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
+                            //Debug
+
+                            //Connect nail and structure
+                            thisScript.addToConnect(otherStructure);
+                            otherScript.AddConnect(thisNail);
+
+                            //Debug.log
+                            Debug.Log("SG Trans finish.");
+                            //Debug
+
+                            //Destroy target manager
+                            Destroy(targetManager);
+                        }
+
+                        //Debug
+                        //targetList = IterateChild();
+                        //Debug
                     }
                 }
             }
-            else
+        }
+    }
+
+    //A debug function used to test if the iteration actually work
+    public void UpdateStructure()
+    {
+        //Check if the position is valid
+        if(transform.childCount > 0)
+        {
+            //Start to remove it from its connected object
+            List<GameObject> isolateObjects = IterateChild();
+            do
             {
                 //Debug
-                //Debug.Log("Empty SG!");
+                Debug.Log("SG Iterator: The isolateObject list count: " + isolateObjects.Count);
+                //Debug
+
+                //Create a new structure group
+                if (isolateObjects.Count > 0)
+                {
+                    GameObject newSG = Instantiate(Resources.Load("StructureGroupPrefab") as GameObject, null);
+
+                    for(int i = 0; i < isolateObjects.Count; i++)
+                    {
+                        GameObject currentTarget = isolateObjects[i];
+                        if (currentTarget.name == "Nail")
+                            currentTarget.GetComponent<Nail>().structureGroup = newSG;
+                        else
+                            currentTarget.GetComponent<Structure>().trackingManager = newSG;
+
+                        isolateObjects[i].transform.parent = newSG.transform;
+                    }
+                }
+
+                //Get an isolated group
+                isolateObjects = IterateChild();
+
+            } while (isolateObjects.Count > 0);
+        }
+    }
+
+    public List<GameObject> IterateChild()
+    {
+        //Create a stack for tracking object
+        List<GameObject> trackingStack = new List<GameObject>();
+        List<GameObject> iteratedStack = new List<GameObject>();
+
+        //Pick up child 0 and start to iterate
+        if(transform.childCount > 0)
+        {
+            //Put the very first object in
+            trackingStack.Add(transform.GetChild(0).gameObject);
+
+            //Start the iterate
+            int debugCounter = 0;
+            while(trackingStack.Count > 0)
+            {
+                //Get the very first object
+                GameObject currentObj = trackingStack[0];
+
+                //Find it's connection
+                List<GameObject> currectConnected;
+                if(currentObj.name == "Nail")
+                {
+                    currectConnected = currentObj.GetComponent<Nail>().connected;
+                }
+                else
+                {
+                    currectConnected = currentObj.GetComponent<Structure>().connected;
+                }
+
+                //Access each connected object, and put into stack if needed
+                for(int i = 0; i < currectConnected.Count; i++)
+                {
+                    GameObject currentTarget = currectConnected[i];
+
+                    bool ifContain = false;
+                    for(int j = 0; j < iteratedStack.Count; j++)
+                    {
+                        if (ReferenceEquals(iteratedStack[j], currentTarget))
+                            ifContain = true;
+                    }
+
+                    //Check if already iterated
+                    if(!ifContain)
+                    {
+                        //If no, put into the tracking stack
+                        trackingStack.Add(currentTarget);
+                    }
+                }
+
+                //Remove current object from tracking stack
+                trackingStack.RemoveAt(0);
+                iteratedStack.Add(currentObj);
+
+                //Debug
+                debugCounter++;
+                if (debugCounter > 2)
+                    break;
                 //Debug
             }
         }
 
-        //Modify the child
-        foreach (Transform child in childList)
-        {
-            //Exclude self
-            if (!GameObject.ReferenceEquals(child.gameObject, gameObject))
-            {
-                //Debug
-                //child.gameObject.GetComponent<Renderer>().material.color = new Color(0, 255, 255);
-                //Debug
+        return iteratedStack;
+    }
 
-                //Add fixed joint to the child
-                if ((child.gameObject.GetComponent<Rigidbody>() != null &&
-                    child.gameObject.GetComponent<FixedJoint>() == null))
-                {
-                    child.gameObject.AddComponent<FixedJoint>();
-                    child.gameObject.GetComponent<FixedJoint>().connectedBody = GetComponent<Rigidbody>();
-                }
-
-                //Disable all the child's OVR grabble if exist
-                if (child.gameObject.GetComponent<OVRGrabbable>() != null)
-                {
-                    //child.gameObject.GetComponent<OVRGrabbable>().enabled = false;
-                    Destroy(child.gameObject.GetComponent<OVRGrabbable>());
-                }
-
-                //Tell them I'm the MASTER OF SCRIPT!
-                if (child.gameObject.tag == "Structure")
-                {
-                    Structure childScript = child.gameObject.GetComponent<Structure>();
-                    childScript.setManager(gameObject);
-                }
-
-                //Change the layer
-                //child.gameObject.layer = LayerMask.NameToLayer("SG Object");
-            }
-        }
-
-        //Set the grabble point to all the child collider
-        grabPoints = gameObject.GetComponentsInChildren<Collider>();
-
-        //Change the layer to ignore inner collision
-        foreach(Collider currentC in grabPoints)
-        {
-            if (!GameObject.ReferenceEquals(currentC.gameObject, gameObject))
-                currentC.gameObject.layer = LayerMask.NameToLayer("SG Object");
-        }
-
-        grabScript.NewGrabPoints(grabPoints);
+    public void AddChild(Transform target)
+    {
+        childList.Add(target);
     }
 }

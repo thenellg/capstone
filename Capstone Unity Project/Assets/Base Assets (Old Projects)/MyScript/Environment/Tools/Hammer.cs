@@ -36,6 +36,7 @@ public class Hammer : Tools
             //If the hammer hit something with its head
             if(contact.thisCollider.gameObject.name == "HeadHead")
             {
+                Debug.Log("Other hammer collider: " + contact.otherCollider.name);
                 //Check if hit the nail
                 if (contact.otherCollider.gameObject.transform.parent.gameObject.name == "Nail")
                 {

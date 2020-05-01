@@ -26,7 +26,7 @@ public class NailEnd : NailElement
             //Check if other collider is the hammer
             if(other.gameObject.name == "HeadHead")
             {
-                parent.hammerHitFunc();
+                //parent.hammerHitFunc();
             }
         }
     }
