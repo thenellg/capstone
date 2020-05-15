@@ -13,18 +13,20 @@ might cycle between each discrete stages or phases of the construction from the 
 process, which could be useful for both the teaching or training purposes.
 > *(From Project Description Document)*
 
-### Unity Version
-***Unity 2019.2.8f1***
+### Examples of our project
+- Beta Build: https://www.youtube.com/watch?v=zltDVEnEyQc&t=5s
+- Final Build: coming soon
+
+### How to Run
+1. Install Unity. (We use version 2019.2.8f1. You can use other versions, however unplanned bugs may occur.)
+2. Plug in Oculus Headset (We have been building on an Oculus Quest.)
+3. Select the "Build settings" option from file and make sure that the Platform is Android and the Run Device is the Oculus Headset
+4. Select "Build and Run" and run the project.
 
 ### Group Memebers
 - Griffin Thenell
 - Shiyao (Michael) Wang
-
-### Official Deadlines
-- [X] Alpha Build (Week 6: **2.14.2020**)
-- [ ] Beta Build  (Week 10: **3.17.2020**)
-- [ ] Code Freeze (Spring Term)
-- [ ] Engineering Expo (**5.15.2020**)
+- Dr. Raffaele De Amicis (Client)
 
 ### Helpful Resources
 - Valem - https://www.youtube.com/channel/UCPJlesN59MzHPPCp0Lg8sLw
