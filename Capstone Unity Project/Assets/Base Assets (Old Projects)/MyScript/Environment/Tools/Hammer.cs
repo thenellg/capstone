@@ -40,6 +40,10 @@ public class Hammer : Tools
                 //Check if hit the nail
                 if (contact.otherCollider.gameObject.transform.parent.gameObject.name == "Nail")
                 {
+                    //Debug
+                    Debug.Log("Hammer touch nail!");
+                    //Debug
+
                     //Get the game object
                     GameObject nail = contact.otherCollider.transform.parent.gameObject;
 
@@ -47,7 +51,7 @@ public class Hammer : Tools
                     Vector3 directionHit = transform.GetChild(3).transform.position -
                         transform.GetChild(2).transform.position;
 
-                    nail.GetComponent<Nail>().HitByHammer(directionHit, managerPrefab);
+                    nail.GetComponent<Nail>().HitNail(1.0f, managerPrefab);
                 }
                 //Otherwise check if hit a structure group
                 if(contact.otherCollider.tag == "SG Manager")

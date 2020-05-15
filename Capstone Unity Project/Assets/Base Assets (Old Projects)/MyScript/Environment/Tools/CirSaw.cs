@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using EzySlice;
 
+//For this circular saw script, a third-party library called "Ezy-slice" was used
 public class CirSaw : Tools
 {
-    private GameObject currentObject;
-    private GameObject targetObject;
-    public GameObject cutPlane;
-    public GameObject Saw;
+    private GameObject  currentObject;
+    private GameObject  targetObject;
+    public GameObject   cutPlane;
+    public GameObject   Saw;
 
     // Start is called before the first frame update
     void Start()
@@ -39,27 +40,29 @@ public class CirSaw : Tools
         //Find the only one target structural object
         foreach(ContactPoint contact in collision.contacts)
         {
-            GameObject temp = FindStructureParent(contact.otherCollider.gameObject);
+            //GameObject temp = FindStructureParent(contact.otherCollider.gameObject);
 
-            if (temp != null)
-                currentObject = temp;
+            if (contact.otherCollider.tag == "Structure")
+            {
+                currentObject = contact.otherCollider.gameObject;
+            }
         }
     }
 
     private void CutObject()
     {
+        //Release the target object first, then cut the slice
+        targetObject.transform.parent = null;
         GameObject[] newChild = targetObject.SliceInstantiate(cutPlane.transform.position, cutPlane.transform.up);
 
         //Check if success
         if(newChild != null)
         {
-            //Remove old object
-            Destroy(targetObject);
-
             foreach(GameObject child in newChild)
             {
                 //Free the new generated object
-                child.transform.parent = null;
+                //child.transform.position = this.transform.position;
+                //child.transform.parent = null;
 
                 //Change the layer and tag of the child
                 child.layer = 9;
@@ -72,8 +75,27 @@ public class CirSaw : Tools
 
                 //Add grabber to the child object
                 OVRGrabbable childGrabble = child.AddComponent<OVRGrabbable>();
+                childGrabble.enabled = false;
                 childGrabble.NewGrabPoints(child.GetComponents<Collider>());
+                childGrabble.enabled = true;
+
+                //Add structure group to the object
+                child.AddComponent<Structure>();
             }
+
+            //Check if target is a structure object
+            if(targetObject.tag == "Structure")
+            {
+                //Check if target object was in a tructure group
+                if(targetObject.GetComponent<Structure>().trackingManager)
+                {
+                    //Set target manager to update
+                    targetObject.GetComponent<Structure>().trackingManager.GetComponent<StructureGroup>().ifNeedUpdate = true;
+                }
+            }
+
+            //Remove old object
+            Destroy(targetObject);
         }
     }
 }

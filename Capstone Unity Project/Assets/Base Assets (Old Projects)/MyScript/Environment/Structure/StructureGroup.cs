@@ -82,6 +82,7 @@ public class StructureGroup : MonoBehaviour
                     child.gameObject.GetComponent<Structure>().iterated = false;
                 }
 
+                //Check if there are new child which is not be tracked yet
                 if (child != null)
                 {
                     //Check if already in the child list
@@ -101,7 +102,11 @@ public class StructureGroup : MonoBehaviour
                     }
 
                     if (needAdd)
+                    {
+                        //ifNeedUpdate = true;
                         AddChild(child);
+                    }
+
                 }
             }
 
@@ -117,6 +122,10 @@ public class StructureGroup : MonoBehaviour
                 UpdateStructure();
                 ifNeedUpdate = false;
             }
+
+            //Check if need to destroy empty SG
+            if (transform.childCount == 0)
+                Destroy(gameObject);
         }
     }
 
@@ -295,9 +304,9 @@ public class StructureGroup : MonoBehaviour
 
     public List<GameObject> IterateChild()
     {
-        //Create a stack for tracking object
-        List<GameObject> trackingStack = new List<GameObject>();
-        List<GameObject> iteratedStack = new List<GameObject>();
+        //Create a queue and stack for tracking object
+        List<GameObject> trackingStack = new List<GameObject>();    //Queue
+        List<GameObject> iteratedStack = new List<GameObject>();    //Stack
 
         //Pick up child 0 and start to iterate
         if(transform.childCount > 0)

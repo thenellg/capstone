@@ -8,6 +8,7 @@ TagManager:
   - Structure
   - SG Object
   - SG Manager
+  - Button
   layers:
   - Default
   - TransparentFX

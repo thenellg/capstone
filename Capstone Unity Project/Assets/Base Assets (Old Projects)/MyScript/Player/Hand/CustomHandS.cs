@@ -38,7 +38,7 @@ public class CustomHandS : OVRGrabber
         }
 
         //Generate new stud when pressed button
-        if (OVRInput.GetDown(OVRInput.RawButton.A) && m_grabbedObj == null && gameObject.name == "CustomHandRight")
+        if (OVRInput.GetDown(OVRInput.RawButton.Y) && m_grabbedObj == null && gameObject.name == "CustomHandLeft")
         {
             GameObject newStud = Instantiate(studPre);
             newStud.name = "Stud";

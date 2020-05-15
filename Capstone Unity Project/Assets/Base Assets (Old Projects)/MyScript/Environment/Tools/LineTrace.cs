@@ -7,7 +7,7 @@ public class LineTrace : MonoBehaviour
 {
     private GameObject parent;
     private LineRenderer line;
-    private int numCheck;
+    public int numCheck;
     private List<GameObject> trackList;
 
     public GameObject checkObjPre;
@@ -17,6 +17,9 @@ public class LineTrace : MonoBehaviour
     {
         parent = null;
         line = null;
+
+        //Initialize the track list
+        trackList = new List<GameObject>();
 
         numCheck = 0;
     }
@@ -41,18 +44,24 @@ public class LineTrace : MonoBehaviour
             {
                 //Get total position
                 int totalCheck = line.positionCount;
-                for(int i = numCheck; i < totalCheck; i++)
+                for(int i = 0; i < totalCheck; i++)
                 {
-                    //Generate track prefab
-                    GameObject curObj = Instantiate(checkObjPre);
+                    if (i >= numCheck)
+                    {
+                        //Generate track prefab
+                        GameObject curObj = Instantiate(checkObjPre);
 
-                    //Set orientation
-                    curObj.transform.position = line.GetPosition(i);
-                    curObj.transform.localScale = new Vector3(0.005f, 0.005f, 0.005f);
-                    curObj.transform.parent = transform.parent;
-                    trackList.Add(curObj);
+                        //Set orientation
+                        curObj.transform.position = line.GetPosition(i);
+                        curObj.transform.localScale = new Vector3(0.005f, 0.005f, 0.005f);
+                        curObj.transform.parent = transform.parent;
+                        curObj.GetComponent<MeshRenderer>().enabled = false;
 
-                    numCheck++;
+                        //Start to track the target
+                        trackList.Add(curObj);
+
+                        numCheck++;
+                    }
                 }
 
                 //Update all the position
