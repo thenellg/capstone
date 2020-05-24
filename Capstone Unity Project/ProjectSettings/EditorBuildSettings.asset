@@ -140,4 +140,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/animations/3_Wall_Sheathing_Steps/3_Wall_Sheathing_Step18.unity
     guid: 755f5d90852bd9344b2583d92b857f4c
+  - enabled: 1
+    path: Assets/Scenes/Tutorial.unity
+    guid: 559a903e345a98245b8db97c2da57a55
   m_configObjects: {}
