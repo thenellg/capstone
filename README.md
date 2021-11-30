@@ -15,7 +15,7 @@ process, which could be useful for both the teaching or training purposes.
 
 ### Examples of our project
 - Beta Build: https://www.youtube.com/watch?v=zltDVEnEyQc&t=5s
-- Final Build: coming soon
+- Final Build: https://www.youtube.com/watch?v=LnNuVoVrBL8&t=1s
 
 ### How to Run
 1. Install Unity. (We use version 2019.2.8f1. You can use other versions, however unplanned bugs may occur.)
